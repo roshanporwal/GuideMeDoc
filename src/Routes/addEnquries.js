@@ -32,14 +32,16 @@ addEnquries.get('/id', async (req, res) => {
 
 addEnquries.post('/create', async (req, res) => {
   
+ // return res.status(200).json({data:JSON.parse(req.body.formValues)})
   
+ let insurance = req.files.insurance_card_copy;
+  const formValues =JSON.parse(req.body.formValues)
+ 
+
+  let identification = req.files.patient_document;
+  let patient_report=req.files.patient_reports;
   
-  //let insurance = req.files.insurance;
-  console.log(req)
-  //let identification = req.files.identification;
-  //let patient_report=req.files.patient_report;
-  /*
-  const dir=`./tmp/${req.body.Patient_Name}`;
+  const dir=`./tmp/${formValues.patient_name}`;
 
   fs.mkdir(dir, { recursive: true }, function(err) {
   if (err) {
@@ -62,9 +64,9 @@ addEnquries.post('/create', async (req, res) => {
   let patient_report_viewurl="http://localhost:8080/view?filepath="+patient_report_path;
   let patient_report_downloadurl="http://localhost:8080/download?filepath="+patient_report_path;
 
-  req.body.Insurance_Card_copy=[insurance_viewurl,insurance_downloadurl]
-  req.body.Identification_Document=[identification_viewurl,identification_downloadurl];
-  req.body.Reports=[patient_report_viewurl,patient_report_downloadurl];
+ formValues.insurance_card_copy=[insurance_viewurl,insurance_downloadurl]
+ formValues.identification_document=[identification_viewurl,identification_downloadurl];
+ formValues.reports=[patient_report_viewurl,patient_report_downloadurl];
   
   insurance.mv(insurance_path, function(err, result) {
    if(err) 
@@ -81,8 +83,9 @@ addEnquries.post('/create', async (req, res) => {
      throw err;
     
    })
+   //console.log(JSON.stringify(formValues))
    
-  const enqurie=await enquries.create(req.body)
-   return res.status(200).json({data:enqurie})*/
+  const enqurie=await enquries.create(formValues)
+   return res.status(200).json({data:enqurie})
 });
 module.exports = addEnquries;

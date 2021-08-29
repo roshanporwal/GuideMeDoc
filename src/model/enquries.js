@@ -2,27 +2,27 @@ const mongoose = require('mongoose')
 
 const EnquriesSchema = new mongoose.Schema(
 	{
-		Patient_Name: { type: String, required: true },
-		Email: { type: String },
-        Current_Diagnosis: { type: String, required: true },
-        Languages_spoken: { type: Array, required: true },
-        Insurance_Card_copy: { type: String, required: true},
-        Referred_by: { type: String, required: true},
-        Medical_history: { type: String, required: true},
-        Mobile_number: { type: String, required: true },
-        age: { type: String, required: true },
-        Requirement: { type: Array, required: true },
-        Food_preferences: { type: String, required: true },
-        Gender: { type: String, required: true },
-        Nationality: { type: String, required: true },
-        Identification_Document: { type: String, required: true },
-        Reports: { type: String, required: true },
-        Transport_support: { type: String, required: true },
-        Accommodation: { type: String, required: true },
-        Perferred_hospital_visit_type: { type: String, required: true },
-        Proposed_Date_to_Avail_The_Service: { type: String, required: true },
-        Planned_Duration_of_trip: { type: String, required: true }
-
+		patient_name: { type: String },
+		patient_email: { type: String },
+        patient_age: { type: String },
+        patient_gender: { type: String },
+        patient_mobile: { type: String },
+        patient_nationality: { type: String },
+        patient_referred_by: { type: String },
+        preferred_hospital_visit: { type: String },
+        current_diagnosis: { type: String },
+        accomodation: { type: String },
+        food_preferences: { type: String },
+        from_date: { type: String },
+        languages_spoken: { type: Array },
+        medical_history: { type: String },
+        proposal_date: { type: String },
+        proposed_treatment_plan: { type: Array },
+        to_date: { type: String },
+        transport_support_needed: { type: String },
+        insurance_card_copy: { type: Array},
+        identification_document: { type: Array },
+        reports: { type: Array }
 	},
 	{ collection: 'enquries' }
 )

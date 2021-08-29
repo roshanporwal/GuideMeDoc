@@ -12,10 +12,11 @@ const cors = require('cors');
 
 connectDB();
 app.use(express.json({ extended: false }));
-app.use('/', require('./Routes/upladfile'));
+app.use('/enquries', require('./Routes/addEnquries'));
+app.use('/upladfile', require('./Routes/upladfile'));
 app.use('/doctor', require('./Routes/doctor'));
 app.use('/hospital', require('./Routes/hospital'));
-app.use('/enquries', require('./Routes/addEnquries'));
+
 app.use(cors());
 
 
