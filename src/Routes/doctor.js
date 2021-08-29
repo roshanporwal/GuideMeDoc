@@ -29,7 +29,7 @@ doctor_all_api.post('/create', async (req, res) => {
   const doctor_present = await Doctor.findOne({  login_id }).lean()
   if (doctor_present) {
     if (doctor_present.password == req.body.password) {
-      return res.status(200).json({data:doctor_present})
+      return res.status(200).json({payload:doctor_present})
     } else {
       return res.status(404).json({error:"Not Found",message:"Password incorrect"})
     }
@@ -45,7 +45,7 @@ doctor_all_api.post('/login', async (req, res) => {
   const doctor_present = await Doctor.findOne({  login_id }).lean()
   if (doctor_present) {
     if (doctor_present.password == req.body.password) {
-      return res.status(200).json({data:doctor_present})
+      return res.status(200).json({payload:doctor_present})
     } else {
       return res.status(404).json({error:"Not Found",message:"Password incorrect"})
     }
@@ -66,9 +66,9 @@ doctor_all_api.post('/update', async (req, res) => {
   
   if (doctor_update.nModified ==1) {
    
-      return res.status(200).json({data:true})
+      return res.status(200).json({payload:true})
     } else {
-      return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed",data:false})
+      return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
     }
   
  
@@ -81,9 +81,9 @@ doctor_all_api.delete('/remove', async (req, res) => {
   
   if (doctor_remove.deletedCount == 1) {
    
-    return res.status(200).json({data:true})
+    return res.status(200).json({payload:true})
   } else {
-    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed",data:false})
+    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
   }
 });
 
@@ -94,9 +94,9 @@ doctor_all_api.get('/forhospital', async (req, res) => {
  
   if (doctor_hospital_id.length != 0) {
    
-    return res.status(200).json({data:doctor_hospital_id})
+    return res.status(200).json({payload:doctor_hospital_id})
   } else {
-    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed",data:[]})
+    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
   } 
 });
 
@@ -107,9 +107,9 @@ doctor_all_api.get('/alldoctor', async (req, res) => {
  
    if (doctor_all.length != 0) {
    
-    return res.status(200).json({data:doctor_all})
+    return res.status(200).json({payload:doctor_all})
   } else {
-    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed",data:[]})
+    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
   }  
 });
 

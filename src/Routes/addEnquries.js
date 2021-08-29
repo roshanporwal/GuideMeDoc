@@ -23,16 +23,16 @@ addEnquries.use(cors());
 addEnquries.get('', async (req, res) => {
    
     const enqurie=await enquries.find({})
-     return res.status(200).json({data:enqurie})
+     return res.status(200).json({payload:enqurie})
 });
 addEnquries.get('/id', async (req, res) => {
   const enqurie=await enquries.find( req.query)
-   return res.status(200).json({data:enqurie})
+   return res.status(200).json({payload:enqurie})
 });
 
 addEnquries.post('/create', async (req, res) => {
   
- // return res.status(200).json({data:JSON.parse(req.body.formValues)})
+ // return res.status(200).json({payload:JSON.parse(req.body.formValues)})
   
  let insurance = req.files.insurance_card_copy;
   const formValues =JSON.parse(req.body.formValues)
@@ -86,6 +86,6 @@ addEnquries.post('/create', async (req, res) => {
    //console.log(JSON.stringify(formValues))
    
   const enqurie=await enquries.create(formValues)
-   return res.status(200).json({data:enqurie})
+   return res.status(200).json({payload:enqurie})
 });
 module.exports = addEnquries;

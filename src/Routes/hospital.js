@@ -27,7 +27,7 @@ hospital_all_api.post('/create', async (req, res) => {
     })
     
     if (create!=null) {
-      return res.status(200).json({data:create})
+      return res.status(200).json({payload:create})
     } else {
       return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
     }
@@ -43,7 +43,7 @@ hospital_all_api.post('/login', async (req, res) => {
   const hospital_present = await Hospital.findOne({  login_id }).lean()
   if (hospital_present) {
     if (hospital_present.password == req.body.password) {
-      return res.status(200).json({data:hospital_present})
+      return res.status(200).json({payload:hospital_present})
     } else {
       return res.status(404).json({error:"Not Found",message:"Password incorrect"})
     }
@@ -64,9 +64,9 @@ hospital_all_api.post('/update', async (req, res) => {
   
   if (hospital_update.nModified ==1) {
    
-      return res.status(200).json({data:true})
+      return res.status(200).json({payload:true})
     } else {
-      return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed",data:false})
+      return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
     }
   
  
@@ -79,9 +79,9 @@ hospital_all_api.delete('/remove', async (req, res) => {
   
   if (hospital_remove.deletedCount == 1) {
    
-    return res.status(200).json({data:true})
+    return res.status(200).json({payload:true})
   } else {
-    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed",data:false})
+    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
   }
 });
 
@@ -92,9 +92,9 @@ hospital_all_api.get('/forhospital', async (req, res) => {
  
   if (doctor_hospital_id.length != 0) {
    
-    return res.status(200).json({data:doctor_hospital_id})
+    return res.status(200).json({payload:doctor_hospital_id})
   } else {
-    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed",data:[]})
+    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
   } 
 });*/
 
@@ -105,9 +105,9 @@ hospital_all_api.get('/', async (req, res) => {
  
    if (hospital_all.length != 0) {
    
-    return res.status(200).json({data:hospital_all})
+    return res.status(200).json({payload:hospital_all})
   } else {
-    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed",data:[]})
+    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
   }  
 });
 
