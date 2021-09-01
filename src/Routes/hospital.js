@@ -5,6 +5,8 @@ const { Router } = require('express');
 var fileupload = require('express-fileupload');
 const Hospital = require('../model/hospital')
 const cors = require('cors');
+var token = require("../middleware/genratetoken")
+var authenticateToken = require("../middleware/verifytoken")
 
 
 
@@ -19,74 +21,71 @@ hospital_all_api.use(cors());
 //create Hospital
 hospital_all_api.post('/create', async (req, res) => {
   const login_id = req.body.login_id;
-   
-  const doctor_present = await Hospital.findOne({  login_id }).lean()
+
+  const doctor_present = await Hospital.findOne({ login_id }).lean()
   if (!doctor_present) {
-    const create =await Hospital.create(req.body).catch((error)=>{
-        return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
+    const create = await Hospital.create(req.body).catch((error) => {
+      return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
     })
-    
-    if (create!=null) {
-      return res.status(200).json({payload:create})
+
+    if (create != null) {
+      return res.status(200).json({ payload: create })
     } else {
-      return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
+      return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
     }
   }
   else {
-    return  res.status(404).json({error:"Not Found",message:"user already present"})
+    return res.status(404).json({ error: "Not Found", message: "user already present" })
   }
 });
 
 //login Hospital
 hospital_all_api.post('/login', async (req, res) => {
   const login_id = req.body.login_id;
-  const hospital_present = await Hospital.findOne({  login_id }).lean()
+  const hospital_present = await Hospital.findOne({ login_id }).lean()
   if (hospital_present) {
     if (hospital_present.password == req.body.password) {
-      return res.status(200).json({payload:hospital_present})
+      const auth = token.generateAccessToken({ username: login_id })
+      hospital_present.token = auth
+      return res.status(200).json({ payload: hospital_present })
     } else {
-      return res.status(404).json({error:"Not Found",message:"Password incorrect"})
+      return res.status(404).json({ error: "Not Found", message: "Password incorrect" })
     }
   }
   else {
-    return  res.status(404).json({error:"Not Found",message:"login_id incorrect"})
+    return res.status(404).json({ error: "Not Found", message: "login_id incorrect" })
   }
 });
 
 
 //update the Hospital record
-hospital_all_api.post('/update', async (req, res) => {
+hospital_all_api.post('/update', authenticateToken, async (req, res) => {
   const login_id = req.query;
-  const modify={ $set: req.body };
-
-
-  const hospital_update = await Hospital.updateOne(  login_id,modify)
-  
-  if (hospital_update.nModified ==1) {
-   
-      return res.status(200).json({payload:true})
-    } else {
-      return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
-    }
-  
- 
+  const modify = { $set: req.body };
+  const hospital_update = await Hospital.updateOne(login_id, modify)
+  if (hospital_update.nModified == 1) {
+    return res.status(200).json({ payload: true })
+  } else if (hospital_update.n == 1) {
+    return res.status(200).json({ payload: false, message: "Already up to date" })
+  } else {
+    return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
+  }
 });
 
 //remove Hospital info
-hospital_all_api.delete('/remove', async (req, res) => {
+hospital_all_api.delete('/remove', authenticateToken, async (req, res) => {
   const login_id = req.query.login_id;
-  const hospital_remove = await Hospital.deleteOne(  {login_id:login_id})
-  
+  const hospital_remove = await Hospital.deleteOne({ login_id: login_id })
+
   if (hospital_remove.deletedCount == 1) {
-   
-    return res.status(200).json({payload:true})
+    return res.status(200).json({ payload: true })
   } else {
-    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
+    return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
   }
 });
 
 /*//get all doctor with hospital id doctor info
-hospital_all_api.get('/forhospital', async (req, res) => {
+hospital_all_api.get('/forhospital',authenticateToken, async (req, res) => {
   const query = req.query;
   const doctor_hospital_id = await Hospital.find( query )
  
@@ -99,16 +98,14 @@ hospital_all_api.get('/forhospital', async (req, res) => {
 });*/
 
 //get all Hospital
-hospital_all_api.get('/', async (req, res) => {
+hospital_all_api.get('/', authenticateToken, async (req, res) => {
   const query = req.query;
-  const hospital_all = await Hospital.find( {} )
- 
-   if (hospital_all.length != 0) {
-   
-    return res.status(200).json({payload:hospital_all})
+  const hospital_all = await Hospital.find({})
+  if (hospital_all.length != 0) {
+    return res.status(200).json({ payload: hospital_all })
   } else {
-    return res.status(404).json({error:"Not Found",message:"something went wrong pls check filed"})
-  }  
+    return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
+  }
 });
 
 module.exports = hospital_all_api;
