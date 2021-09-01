@@ -12,8 +12,9 @@ const Hospital = require('../model/hospital')
 const Doctor = require('../model/doctor');
 const generatePassword = require('../Api/password');
 const cors = require('cors');
-
-
+var jwt = require('jsonwebtoken');
+var crypto = require('crypto');
+var token = require("../middleware/genratetoken")
 
 
 
@@ -39,12 +40,19 @@ doctor_all_api.post('/create', async (req, res) => {
   }
 });*/
 
+doctor_all_api.post('/token', async (req, res) => {
+ 
+  const auth= token.generateAccessToken({username:"HI"})
+   return res.status(200).json({payload:auth})
+  
+ });
+
 //login doctor
 doctor_all_api.post('/login', async (req, res) => {
   const login_id = req.body.login_id;
   const doctor_present = await Doctor.findOne({  login_id }).lean()
   if (doctor_present) {
-    if (doctor_present.password == req.body.password) {
+    if (doctor_present.password == req.body.password) {  
       return res.status(200).json({payload:doctor_present})
     } else {
       return res.status(404).json({error:"Not Found",message:"Password incorrect"})

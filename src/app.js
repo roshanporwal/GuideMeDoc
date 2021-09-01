@@ -19,6 +19,40 @@ app.use('/hospital', require('./Routes/hospital'));
 
 app.use(cors());
 
+app.get('/view', async (req, res) => {
+    const abc =req.query;
+    console.log(abc);
+    const filepath=req.query.filepath;
+    console.log(filepath);
+    let ext = path.parse(filepath).ext;
+    fs.readFile(filepath,(err,data)=>{
+      if(err){
+        res.statusCode=500;
+        res.end(err);
+      }else{
+        res.setHeader("ContentType",`application/${ext}`);
+        res.end(data);
+      }
+    })
+    
+    
+  });
+  
+  app.get('/download', async (req, res) => {
+    const filepath=req.query.filepath;
+    console.log(filepath);
+    
+    
+    res.download(filepath, (err) => {
+      if (err) {
+        res.status(500).send({
+          message: "Could not download the file. " + err,
+        });
+      }
+    });
+    //res.send(req.body)
+  });
+
 
 const Port = process.env.Port || 8080;
 

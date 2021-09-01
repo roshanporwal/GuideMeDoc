@@ -2,14 +2,14 @@ const mongoose = require('mongoose')
 
 const DoctorSchema = new mongoose.Schema(
 	{
-		SPECIALITY: { type: String, required: true },
+		SPECIALITY: { type: String },
 		Hospital_Name: { type: String },
-        DOCTOR_NAME: { type: String, required: true, unique: true },
+        DOCTOR_NAME: { type: String },
         login_id: { type: String, required: true, unique: true },
-        sub_speciality: { type: String, required: true},
-        CHARGES: { type: String, required: true},
-        languages: { type: String, required: true},
-        password: { type: String, required: true, unique: true }
+        sub_speciality: { type: String},
+        CHARGES: { type: String},
+        languages: { type: String},
+        password: { type: String }
 
 
 	},

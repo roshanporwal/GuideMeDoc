@@ -22,7 +22,10 @@ const EnquriesSchema = new mongoose.Schema(
         transport_support_needed: { type: String },
         insurance_card_copy: { type: Array},
         identification_document: { type: Array },
-        reports: { type: Array }
+        reports: { type: Array },
+        status:{ type: String },
+        hospitals:{type:Array}
+        
 	},
 	{ collection: 'enquries' }
 )

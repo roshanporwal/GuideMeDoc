@@ -43,12 +43,13 @@ fileuplaodaddtodatabase.post('', async (req, res) => {
 
     const Hospital_Name = hospital_data[0].Hospital_Name;
     const Google_location = hospital_data[0].Google_location;
-    const login_id = hospital_data[0].login_id;
+    const login_id = hospital_data[0].Hospital_Name.replace(/\s/g, "");
+   // const login_id = hospital_data[0].login_id;
 
 
     const hospital_present = await Hospital.findOne({ login_id }).lean()
     if (!hospital_present) {
-        const password= generatePassword(12);
+        const password= "admin"//generatePassword(12);
         await Hospital.create({
             Hospital_Name,
             Google_location,
@@ -66,7 +67,7 @@ fileuplaodaddtodatabase.post('', async (req, res) => {
         const CHARGES = dr.CHARGES;
         const login_id = dr.DOCTOR_NAME.replace(/\s/g, "")
         const doctor = await Doctor.findOne({ login_id }).lean()
-        const password= generatePassword(12);
+        const password= "admin"//generatePassword(12);
 
 
 
