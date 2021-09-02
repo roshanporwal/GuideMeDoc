@@ -59,7 +59,7 @@ hospital_all_api.post('/login', async (req, res) => {
 
 
 //update the Hospital record
-hospital_all_api.post('/update', authenticateToken, async (req, res) => {
+hospital_all_api.post('/:id/update', authenticateToken, async (req, res) => {
   const login_id = req.query;
   const modify = { $set: req.body };
   const hospital_update = await Hospital.updateOne(login_id, modify)
@@ -73,7 +73,7 @@ hospital_all_api.post('/update', authenticateToken, async (req, res) => {
 });
 
 //remove Hospital info
-hospital_all_api.delete('/remove', authenticateToken, async (req, res) => {
+hospital_all_api.delete('/:id/remove', authenticateToken, async (req, res) => {
   const login_id = req.query.login_id;
   const hospital_remove = await Hospital.deleteOne({ login_id: login_id })
 
@@ -98,7 +98,7 @@ hospital_all_api.get('/forhospital',authenticateToken, async (req, res) => {
 });*/
 
 //get all Hospital
-hospital_all_api.get('/', authenticateToken, async (req, res) => {
+hospital_all_api.get('/:id/', authenticateToken, async (req, res) => {
   const query = req.query;
   const hospital_all = await Hospital.find({})
   if (hospital_all.length != 0) {

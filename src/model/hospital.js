@@ -6,7 +6,6 @@ const HospitalSchema = new mongoose.Schema(
 		Google_location: { type: String, required: true },
         login_id: { type: String, required: true, unique: true },
 		password: { type: String, required: true},
-		enquries_id:{ type: Array}
 	},
 	{ collection: 'hospitals' }
 )

@@ -21,21 +21,21 @@ addEnquries.use(fileupload());
 addEnquries.use(cors());
 
 //get all enquries
-addEnquries.get('', authenticateToken, async (req, res) => {
+addEnquries.get('/:id', authenticateToken, async (req, res) => {
 
   const enqurie = await enquries.find({})
   return res.status(200).json({ payload: enqurie })
 });
 
 //get enquries with quries
-addEnquries.get('/id', authenticateToken, async (req, res) => {
+addEnquries.get('/:id/id', authenticateToken, async (req, res) => {
   const enqurie = await enquries.find(req.query)
   return res.status(200).json({ payload: enqurie })
 });
 
 
 //get enquries with hospital login id
-addEnquries.get('/hospital', authenticateToken, async (req, res) => {
+addEnquries.get('/:id/hospital', authenticateToken, async (req, res) => {
   const hospital_login = req.query.hospital_login;
   const enqurie = await enquries.find({
     hospitals: {
@@ -48,7 +48,7 @@ addEnquries.get('/hospital', authenticateToken, async (req, res) => {
 });
 
 //update enquries
-addEnquries.post('/update', authenticateToken, async (req, res) => {
+addEnquries.post('/:id/update', authenticateToken, async (req, res) => {
   const _id = req.query;
   const modify = { $set: req.body };
   const enquries1 = await enquries.updateOne(_id, modify)
@@ -62,7 +62,7 @@ addEnquries.post('/update', authenticateToken, async (req, res) => {
 
 
 //add hospital in enquries
-addEnquries.post('/addhospitals', authenticateToken, async (req, res) => {
+addEnquries.post('/:id/addhospitals', authenticateToken, async (req, res) => {
   const _id = req.query;
   let hospitals = [];
   const enquries_present = await enquries.findOne({ _id }).lean()
@@ -94,7 +94,7 @@ addEnquries.post('/addhospitals', authenticateToken, async (req, res) => {
 
 
 
-addEnquries.post('/hospital/sendquote', authenticateToken, async (req, res) => {
+addEnquries.post('/:id/hospital/sendquote', authenticateToken, async (req, res) => {
   const _id = { _id: req.query.enquries_id };
   const data = req.body
   // console.log(req.query)
@@ -125,7 +125,7 @@ addEnquries.post('/hospital/sendquote', authenticateToken, async (req, res) => {
 });
 
 //add new enquries
-addEnquries.post('/create', authenticateToken, async (req, res) => {
+addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
   let insurance = req.files.insurance_card_copy;
   const formValues = JSON.parse(req.body.formValues)
   let identification = req.files.patient_document;

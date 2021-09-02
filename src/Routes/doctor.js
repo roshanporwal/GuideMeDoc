@@ -46,9 +46,10 @@ doctor_all_api.post('/create', async (req, res) => {
   const auth= token.generateAccessToken({username:"HI"})
    return res.status(200).json({payload:auth})
   
- });
- doctor_all_api.get('/token1',authenticateToken ,async (req, res) => {
-   return res.status(200).json({payload:"done"})
+ });*/
+ /*doctor_all_api.get('/:id/token1',async (req, res) => {
+  var id = req.params.id;
+  return res.status(200).json({payload:id})
   
  });*/
 
@@ -60,7 +61,7 @@ doctor_all_api.post('/login', async (req, res) => {
   const doctor_present = await Doctor.findOne({ login_id }).lean()
   if (doctor_present) {
     if (doctor_present.password == req.body.password) {
-      const auth = token.generateAccessToken({ username: login_id })
+      const auth = token.generateAccessToken({ login_id: login_id })
       doctor_present.token = auth
       return res.status(200).json({ payload: doctor_present })
     } else {
@@ -74,7 +75,7 @@ doctor_all_api.post('/login', async (req, res) => {
 
 
 //update the doctor record
-doctor_all_api.post('/update', authenticateToken, async (req, res) => {
+doctor_all_api.post('/:id/update', authenticateToken, async (req, res) => {
   const login_id = req.query;
   const modify = { $set: req.body };
   const doctor_update = await Doctor.updateOne(login_id, modify)
@@ -86,7 +87,7 @@ doctor_all_api.post('/update', authenticateToken, async (req, res) => {
 });
 
 //remove doctor info
-doctor_all_api.delete('/remove', authenticateToken, async (req, res) => {
+doctor_all_api.delete('/:id/remove', authenticateToken, async (req, res) => {
   const login_id = req.query.login_id;
   const doctor_remove = await Doctor.deleteOne({ login_id: login_id })
 
@@ -99,7 +100,7 @@ doctor_all_api.delete('/remove', authenticateToken, async (req, res) => {
 });
 
 //get all doctor with hospital id doctor info
-doctor_all_api.get('/forhospital', authenticateToken, async (req, res) => {
+doctor_all_api.get('/:id/forhospital', authenticateToken, async (req, res) => {
   const query = req.query;
   const doctor_hospital_id = await Doctor.find(query)
 
@@ -112,7 +113,7 @@ doctor_all_api.get('/forhospital', authenticateToken, async (req, res) => {
 });
 
 //get all doctor
-doctor_all_api.get('/alldoctor', authenticateToken, async (req, res) => {
+doctor_all_api.get('/:id/', authenticateToken, async (req, res) => {
   const query = req.query;
   const doctor_all = await Doctor.find({})
 
