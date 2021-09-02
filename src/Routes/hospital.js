@@ -45,7 +45,7 @@ hospital_all_api.post('/login', async (req, res) => {
   const hospital_present = await Hospital.findOne({ login_id }).lean()
   if (hospital_present) {
     if (hospital_present.password == req.body.password) {
-      const auth = token.generateAccessToken({ username: login_id })
+      const auth = token.generateAccessToken({ login_id: login_id })
       hospital_present.token = auth
       return res.status(200).json({ payload: hospital_present })
     } else {
@@ -98,7 +98,7 @@ hospital_all_api.get('/forhospital',authenticateToken, async (req, res) => {
 });*/
 
 //get all Hospital
-hospital_all_api.get('/:id/', authenticateToken, async (req, res) => {
+hospital_all_api.get('/:id', authenticateToken, async (req, res) => {
   const query = req.query;
   const hospital_all = await Hospital.find({})
   if (hospital_all.length != 0) {

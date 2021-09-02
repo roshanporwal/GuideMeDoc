@@ -9,8 +9,8 @@ module.exports = function authenticateToken(req, res, next) {
 
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
         if (err) return res.sendStatus(401)
-        if(user.login_id!= id)return res.sendStatus(401)
+        if (user.login_id != id) return res.sendStatus(401)
         req.user = user
-        next()    
+        next()
     })
 }

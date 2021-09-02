@@ -11,6 +11,7 @@ const enquries = require('../model/enquries');
 const generatePassword = require('../Api/password');
 const cors = require('cors');
 var authenticateToken = require("../middleware/verifytoken")
+var isadmin = require("../middleware/isadmin")
 
 
 
@@ -21,7 +22,7 @@ addEnquries.use(fileupload());
 addEnquries.use(cors());
 
 //get all enquries
-addEnquries.get('/:id', authenticateToken, async (req, res) => {
+addEnquries.get('/:id', [authenticateToken, isadmin], async (req, res) => {
 
   const enqurie = await enquries.find({})
   return res.status(200).json({ payload: enqurie })
