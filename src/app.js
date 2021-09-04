@@ -21,6 +21,7 @@ app.use('/hospital', require('./Routes/hospital'));
 app.use(cors());
 
 app.get('/view', async (req, res) => {
+  try{
   const abc = req.query;
   console.log(abc);
   const filepath = req.query.filepath;
@@ -35,11 +36,14 @@ app.get('/view', async (req, res) => {
       res.end(data);
     }
   })
-
+  }catch(err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  } 
 
 });
 
 app.get('/download', async (req, res) => {
+  try{
   const filepath = req.query.filepath;
   console.log(filepath);
 
@@ -51,6 +55,9 @@ app.get('/download', async (req, res) => {
       });
     }
   });
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
   //res.send(req.body)
 });
 

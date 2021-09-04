@@ -8,7 +8,13 @@ dotenv.config();
 process.env.TOKEN_SECRET;
 
   function generateAccessToken(username) {
-    return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+    try{
+
+    
+    return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '15552000s' });
+    }catch(err) {
+      return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+    } 
   }
 
 

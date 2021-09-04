@@ -20,6 +20,7 @@ admin_api.use(cors());
 
 //create Admin
 admin_api.post('/create', async (req, res) => {
+  try{
   const login_id = req.body.login_id;
 
   const admin_present = await Admin.findOne({ login_id }).lean()
@@ -37,10 +38,14 @@ admin_api.post('/create', async (req, res) => {
   else {
     return res.status(404).json({ error: "Not Found", message: "user already present" })
   }
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
 });
 
 //login Admin
 admin_api.post('/login', async (req, res) => {
+  try{
   const login_id = req.body.login_id;
   const admin_present = await Admin.findOne({ login_id }).lean()
   if (admin_present) {
@@ -55,6 +60,9 @@ admin_api.post('/login', async (req, res) => {
   else {
     return res.status(404).json({ error: "Not Found", message: "login_id incorrect" })
   }
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
 });
 
 

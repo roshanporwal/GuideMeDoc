@@ -23,33 +23,48 @@ addEnquries.use(cors());
 
 //get all enquries
 addEnquries.get('/:id', [authenticateToken, isadmin], async (req, res) => {
+  try{
 
   const enqurie = await enquries.find({})
   return res.status(200).json({ payload: enqurie })
+  }catch(err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  } 
 });
 
 //get enquries with quries
 addEnquries.get('/:id/id', authenticateToken, async (req, res) => {
+  try{
   const enqurie = await enquries.find(req.query)
   return res.status(200).json({ payload: enqurie })
+  }
+  catch(err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  } 
 });
 
 
 //get enquries with hospital login id
 addEnquries.get('/:id/hospital', authenticateToken, async (req, res) => {
-  const hospital_login = req.query.hospital_login;
+  try{
+  const hospital_id = req.query.hospital_id;
   const enqurie = await enquries.find({
     hospitals: {
       $elemMatch: {
-        hospital_login: hospital_login
+        hospital_id: hospital_id
       }
     }
   })
   return res.status(200).json({ payload: enqurie })
+}
+catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
 });
 
 //update enquries
 addEnquries.post('/:id/update', authenticateToken, async (req, res) => {
+  try{
   const _id = req.query;
   const modify = { $set: req.body };
   const enquries1 = await enquries.updateOne(_id, modify)
@@ -58,12 +73,17 @@ addEnquries.post('/:id/update', authenticateToken, async (req, res) => {
   } else {
     return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
   }
+}
+  catch(err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  } 
 });
 
 
 
 //add hospital in enquries
 addEnquries.post('/:id/addhospitals', authenticateToken, async (req, res) => {
+  try{
   const _id = req.query;
   let hospitals = [];
   const enquries_present = await enquries.findOne({ _id }).lean()
@@ -72,10 +92,10 @@ addEnquries.post('/:id/addhospitals', authenticateToken, async (req, res) => {
   }
   hospitals = enquries_present.hospitals
   for (const value of req.body) {
-    if (enquries_present.hospitals.find(item => item.hospital_login === value)) {
+    if (enquries_present.hospitals.find(item => item.hospital_id === value.value)) {
     } else {
       hospitals.push({
-        hospital_login: value,
+        hospital_id: value.value,
         status: "new"
       })
     }
@@ -91,11 +111,16 @@ addEnquries.post('/:id/addhospitals', authenticateToken, async (req, res) => {
   } else {
     return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
   }
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
+
 });
 
 
 
 addEnquries.post('/:id/hospital/sendquote', authenticateToken, async (req, res) => {
+  try{
   const _id = { _id: req.query.enquries_id };
   const data = req.body
   // console.log(req.query)
@@ -105,9 +130,9 @@ addEnquries.post('/:id/hospital/sendquote', authenticateToken, async (req, res) 
   hospitals = enquries_present.hospitals
 
   for (let i = 0; i < enquries_present.hospitals.length; i++) {
-    if (enquries_present.hospitals[i].hospital_login === req.query.hospital_login) {
+    if (enquries_present.hospitals[i].hospital_id === req.query.hospital_id) {
 
-      data.hospital_login = req.query.hospital_login;
+      data.hospital_id = req.query.hospital_id;
       hospitals[i] = data
 
     }
@@ -123,15 +148,23 @@ addEnquries.post('/:id/hospital/sendquote', authenticateToken, async (req, res) 
   } else {
     return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
   }
+  }catch(err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  } 
+
 });
 
 //add new enquries
 addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
+  try{
+
+  
   let insurance = req.files.insurance_card_copy;
   const formValues = JSON.parse(req.body.formValues)
   let identification = req.files.patient_document;
   let patient_report = req.files.patient_reports;
   const dir = `./tmp/${formValues.patient_name}`;
+  console.log(identification)
   fs.mkdir(dir, { recursive: true }, function (err) {
     if (err) {
       console.log(err)
@@ -172,8 +205,13 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
   })
   //console.log(JSON.stringify(formValues))
 
-  const enqurie = await enquries.create(formValues)
+  const enqurie = await enquries.create(formValues).catch
   return res.status(200).json({ payload: enqurie })
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
+
+
 });
 
 

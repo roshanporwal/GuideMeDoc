@@ -23,7 +23,7 @@ fileuplaodaddtodatabase.use(cors());
 
 
 fileuplaodaddtodatabase.post('', async (req, res) => {
-    
+    try{
 
     let file = req.files.blogimage;
     const dir = `./tmp/`;
@@ -41,30 +41,33 @@ fileuplaodaddtodatabase.post('', async (req, res) => {
     var hospital_data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
     var doctor_hospital_data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[1]]);
 
-    const Hospital_Name = hospital_data[0].Hospital_Name;
-    const Google_location = hospital_data[0].Google_location;
+    const hospital_name = hospital_data[0].Hospital_Name;
+    const google_location = hospital_data[0].Google_location;
     const login_id = hospital_data[0].Hospital_Name.replace(/\s/g, "");
    // const login_id = hospital_data[0].login_id;
 
-
+   let hospital_id;
     const hospital_present = await Hospital.findOne({ login_id }).lean()
     if (!hospital_present) {
         const password= "admin"//generatePassword(12);
-        await Hospital.create({
-            Hospital_Name,
-            Google_location,
+        const crhospital= await Hospital.create({
+            hospital_name,
+            google_location,
             login_id,
-            password
-            
+            password  
         })
+         hospital_id=crhospital._id
+        console.log(hospital_id)
+    }else{
+        hospital_id=hospital_present._id
     }
     for (const dr of doctor_hospital_data) {
 
-        const SPECIALITY = dr.SPECIALITY;
-        const DOCTOR_NAME = dr.DOCTOR_NAME;
+        const speciality = dr.SPECIALITY;
+        const doctor_name = dr.DOCTOR_NAME;
         const sub_speciality = dr.sub_speciality;
         const languages = dr.languages;
-        const CHARGES = dr.CHARGES;
+        const charges = dr.CHARGES;
         const login_id = dr.DOCTOR_NAME.replace(/\s/g, "")
         const doctor = await Doctor.findOne({ login_id }).lean()
         const password= "admin"//generatePassword(12);
@@ -73,13 +76,13 @@ fileuplaodaddtodatabase.post('', async (req, res) => {
 
         if (!doctor) {
             await Doctor.create({
-                SPECIALITY,
-                DOCTOR_NAME,
+                speciality,
+                doctor_name,
                 login_id,
                 sub_speciality,
                 languages,
-                CHARGES,
-                Hospital_Name,
+                charges,
+                hospital_id,
                 password
             })
 
@@ -94,7 +97,9 @@ fileuplaodaddtodatabase.post('', async (req, res) => {
     res.send("All Done")
 
 
-
+    }catch(err) {
+        return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+      } 
 
 
 

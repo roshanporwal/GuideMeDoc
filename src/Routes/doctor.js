@@ -15,7 +15,8 @@ const cors = require('cors');
 var jwt = require('jsonwebtoken');
 var crypto = require('crypto');
 var token = require("../middleware/genratetoken")
-var authenticateToken = require("../middleware/verifytoken")
+var authenticateToken = require("../middleware/verifytoken");
+const { set } = require('mongoose');
 
 
 
@@ -56,6 +57,7 @@ doctor_all_api.post('/create', async (req, res) => {
 
 //login doctor
 doctor_all_api.post('/login', async (req, res) => {
+  try{
   const login_id = req.body.login_id;
   console.log(login_id)
   const doctor_present = await Doctor.findOne({ login_id }).lean()
@@ -71,11 +73,15 @@ doctor_all_api.post('/login', async (req, res) => {
   else {
     return res.status(404).json({ error: "Not Found", message: "login_id incorrect" })
   }
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
 });
 
 
 //update the doctor record
 doctor_all_api.post('/:id/update', authenticateToken, async (req, res) => {
+  try{
   const login_id = req.query;
   const modify = { $set: req.body };
   const doctor_update = await Doctor.updateOne(login_id, modify)
@@ -84,10 +90,14 @@ doctor_all_api.post('/:id/update', authenticateToken, async (req, res) => {
   } else {
     return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
   }
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
 });
 
 //remove doctor info
 doctor_all_api.delete('/:id/remove', authenticateToken, async (req, res) => {
+  try{
   const login_id = req.query.login_id;
   const doctor_remove = await Doctor.deleteOne({ login_id: login_id })
 
@@ -97,10 +107,14 @@ doctor_all_api.delete('/:id/remove', authenticateToken, async (req, res) => {
   } else {
     return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
   }
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
 });
 
 //get all doctor with hospital id doctor info
 doctor_all_api.get('/:id/forhospital', authenticateToken, async (req, res) => {
+  try{
   const query = req.query;
   const doctor_hospital_id = await Doctor.find(query)
 
@@ -110,10 +124,14 @@ doctor_all_api.get('/:id/forhospital', authenticateToken, async (req, res) => {
   } else {
     return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
   }
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
 });
 
 //get all doctor
 doctor_all_api.get('/:id/', authenticateToken, async (req, res) => {
+  try{
   const query = req.query;
   const doctor_all = await Doctor.find({})
 
@@ -123,6 +141,39 @@ doctor_all_api.get('/:id/', authenticateToken, async (req, res) => {
   } else {
     return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
   }
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
+});
+
+
+
+doctor_all_api.get('/', async (req, res) => {
+  try{
+  const query = req.query;
+  const hospital_name="Al Jalilas Children Speciality Hospital"
+  const doctor_all = await Doctor.find({hospital_name})
+  //console.log(doctor_all)
+  const arr =[]
+
+  if (doctor_all.length != 0) {
+
+    for(const dr of doctor_all ){
+      arr.push(dr.SPECIALITY)
+
+    }
+    console.log(arr.length)
+    let uniqueChars = [...new Set(arr)];
+   
+    console.log(uniqueChars.length)
+
+    return res.status(200).json({ payload: uniqueChars })
+  } else {
+    return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
+  }
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
 });
 
 module.exports = doctor_all_api;

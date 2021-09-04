@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = function authenticateToken(req, res, next) {
+    try{
     const authHeader = req.headers['authorization']
     var id = req.params.id;
     const token = authHeader && authHeader.split(' ')[1]
@@ -13,4 +14,7 @@ module.exports = function authenticateToken(req, res, next) {
         req.user = user
         next()
     })
+}catch(err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  } 
 }
