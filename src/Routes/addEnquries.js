@@ -103,7 +103,8 @@ addEnquries.post('/:id/addhospitals', authenticateToken, async (req, res) => {
   }
   const modify = {
     $set: {
-      hospitals: hospitals
+      hospitals: hospitals,
+      status:"Awaiting From Hospital"
     }
   };
   const enquries1 = await enquries.updateOne(_id, modify)
@@ -118,7 +119,45 @@ addEnquries.post('/:id/addhospitals', authenticateToken, async (req, res) => {
 
 });
 
+addEnquries.get('/:id/hospital/wonandloss', authenticateToken, async (req, res) => {
+  try{
+  const _id = { _id: req.query.enquries_id };
+  let data ;
+  // console.log(req.query)
+  // console.log(_id)
+  let hospitals = [];
+  const enquries_present = await enquries.findOne({ _id }).lean()
+  hospitals = enquries_present.hospitals
 
+  for (let i = 0; i < enquries_present.hospitals.length; i++) {
+    if (enquries_present.hospitals[i].hospital_id === req.query.hospital_id) {
+
+      
+      hospitals[i].status = "Won Patients";
+
+    }else{
+      hospitals[i].status = "Lost Patients";
+    }
+  }
+  const modify = {
+    $set: {
+      hospitals: hospitals,
+      status:"Won Patients",
+      value:100000,
+      cumition:10000
+    }
+  };
+  const enquries1 = await enquries.updateOne(_id, modify)
+  if (enquries1.nModified == 1) {
+    return res.status(200).json({ payload: true })
+  } else {
+    return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
+  }
+  }catch(err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  } 
+
+});
 
 addEnquries.post('/:id/hospital/sendquote', authenticateToken, async (req, res) => {
   try{
@@ -132,7 +171,7 @@ addEnquries.post('/:id/hospital/sendquote', authenticateToken, async (req, res) 
 
   for (let i = 0; i < enquries_present.hospitals.length; i++) {
     if (enquries_present.hospitals[i].hospital_id === req.query.hospital_id) {
-
+      data.hospital_name=enquries_present.hospitals[i].hospital_name
       data.hospital_id = req.query.hospital_id;
       hospitals[i] = data
 

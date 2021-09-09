@@ -33,12 +33,20 @@ addEnquries.get('/get', async (req, res) => {
   });
 
 
-  addEnquries.post('/send',function(req,res){
+  addEnquries.post('/send',async(req,res) => {
     console.log('req.body: ');
     console.log(req.body);
     let Email1=req.body.email;
     console.log(Email1,"Email")
     console.log(req.body.url,"url")
+    const _id=req.body.enq_id
+    const modify = {
+      $set: {
+        
+        status:"Awaiting From Patients"
+      }
+    };
+    await enquries.updateOne({_id}, modify)
 
      // send mail with defined transport object
      let transporter = nodemailer.createTransport({
