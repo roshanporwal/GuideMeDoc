@@ -137,4 +137,19 @@ hospital_all_api.get('/:id', authenticateToken, async (req, res) => {
 } 
 });
 
+
+//get all Hospital
+hospital_all_api.get('/:id/alldata', authenticateToken, async (req, res) => {
+  try{
+  const hospital_all = await Hospital.find({})
+  if (hospital_all.length != 0) {
+    return res.status(200).json({ payload: hospital_all })
+  } else {
+    return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
+  }
+}catch(err) {
+  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+} 
+});
+
 module.exports = hospital_all_api;

@@ -17,6 +17,7 @@ app.use('/upladfile', require('./Routes/upladfile'));
 app.use('/doctor', require('./Routes/doctor'));
 app.use('/admin', require('./Routes/admin'));
 app.use('/hospital', require('./Routes/hospital'));
+app.use('/sendmail', require('./Routes/patientmail'));
 
 app.use(cors());
 

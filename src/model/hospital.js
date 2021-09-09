@@ -6,6 +6,9 @@ const HospitalSchema = new mongoose.Schema(
 		google_location: { type: String, required: true },
         login_id: { type: String, required: true, unique: true },
 		password: { type: String, required: true},
+		speciality:{ type: Array},
+		phno:{ type: String},
+		address:{ type: String},
 	},
 	{ collection: 'hospitals' }
 )

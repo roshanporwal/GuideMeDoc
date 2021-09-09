@@ -96,6 +96,7 @@ addEnquries.post('/:id/addhospitals', authenticateToken, async (req, res) => {
     } else {
       hospitals.push({
         hospital_id: value.value,
+        hospital_name:value.label,
         status: "new"
       })
     }
@@ -205,7 +206,7 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
   })
   //console.log(JSON.stringify(formValues))
 
-  const enqurie = await enquries.create(formValues).catch
+  const enqurie = await enquries.create(formValues)
   return res.status(200).json({ payload: enqurie })
 }catch(err) {
   return res.status(404).json({ error: err, message: "something went wrong pls check filed" })

@@ -24,7 +24,8 @@ const EnquriesSchema = new mongoose.Schema(
         identification_document: { type: Array },
         reports: { type: Array },
         status:{ type: String },
-        hospitals:{type:Array}
+        hospitals:{type:Array},
+        insurance_name:{ type: String },
         
 	},
 	{ collection: 'enquries' }
