@@ -12,9 +12,11 @@ const cors = require('cors');
 
 connectDB();
 app.use(express.json({ extended: false }));
-app.use('/enquries', require('./Routes/addEnquries'));
-app.use('/upladfile', require('./Routes/upladfile'));
 app.use('/doctor', require('./Routes/doctor'));
+app.use('/enquries', require('./Routes/addEnquries'));
+
+app.use('/upladfile', require('./Routes/upladfile'));
+
 app.use('/admin', require('./Routes/admin'));
 app.use('/hospital', require('./Routes/hospital'));
 app.use('/sendmail', require('./Routes/patientmail'));
@@ -57,6 +59,7 @@ app.get('/download', async (req, res) => {
     }
   });
 }catch(err) {
+  console.log(err)
   return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
 } 
   //res.send(req.body)

@@ -9,7 +9,9 @@ const DoctorSchema = new mongoose.Schema(
         sub_speciality: { type: String},
         charges: { type: String},
         languages: { type: String},
-        password: { type: String }
+        password: { type: String },
+        doctor_bio:{ type: String },
+        avatar:{ type: String }
 	},
 	{ collection: 'doctor' }
 )

@@ -32,6 +32,36 @@ addEnquries.get('/:id', [authenticateToken, isadmin], async (req, res) => {
   } 
 });
 
+addEnquries.get('/admin111',  async (req, res) => {
+  try{
+
+  const enqurie = await enquries.find({})
+  const enquriesstatus=[];
+  for(const en of enqurie){
+            
+    enquriesstatus[0].total+=1
+    if(en.status==="new"){
+        enquriesstatus[0].new+=1
+    }else if(en.status==="Awaiting From Hospital" ||en.status==="Awaiting From Patients"){
+        if(en.status==="Awaiting From Hospital"){
+            enquriesstatus[0].inProgress+=1
+        }else{
+            enquriesstatus[0].sentQuote+=1 
+        }
+         enquriesstatus[0].awaiting+=1
+    }else if(en.status==="Won Patients"){
+        enquriesstatus[0].won+=1
+    }else{
+        enquriesstatus[0].lost+=1
+    }
+   
+}
+  return res.status(200).json({ payload: enquriesstatus })
+  }catch(err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  } 
+});
+
 //get enquries with quries
 addEnquries.get('/:id/id', authenticateToken, async (req, res) => {
   try{
