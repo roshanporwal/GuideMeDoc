@@ -9,6 +9,8 @@ const HospitalSchema = new mongoose.Schema(
 		speciality:{ type: Array},
 		phno:{ type: String},
 		address:{ type: String},
+		images:{type :Array},
+		insurance:{type :Array},
 	},
 	{ collection: 'hospitals' }
 )

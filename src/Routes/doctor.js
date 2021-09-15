@@ -96,6 +96,7 @@ doctor_all_api.post('/login', async (req, res) => {
       if (doctor_present.password == req.body.password) {
         const auth = token.generateAccessToken({ login_id: login_id })
         doctor_present.token = auth
+        doctor_present.admin=false
         return res.status(200).json({ payload: doctor_present })
       } else {
         return res.status(404).json({ error: "Not Found", message: "Password incorrect" })

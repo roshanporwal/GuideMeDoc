@@ -102,7 +102,7 @@ addEnquries.get('/admin/status',  async (req, res) => {
   for(const en of enqurie){
             
     enquriesstatus.total+=1
-    if(en.status==="new"){
+    if(en.status==="New"){
         enquriesstatus.new+=1
     }else if(en.status==="Awaiting From Hospital" ||en.status==="Awaiting From Patients"){
         if(en.status==="Awaiting From Hospital"){

@@ -26,8 +26,11 @@ const EnquriesSchema = new mongoose.Schema(
         status:{ type: String },
         hospitals:{type:Array},
         insurance_name:{ type: String },
-        value:{ type: Number },
-        cumition:{ type: Number },
+        value:{ type: String },
+        commission:{ type: String },
+        hospital_name:{ type: String },
+        feedbackrating:{ type: String },
+        feedbackmessage:{ type: String },
         
 	},
 	{ collection: 'enquries' }

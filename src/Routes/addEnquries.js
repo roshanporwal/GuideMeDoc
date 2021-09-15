@@ -149,10 +149,13 @@ addEnquries.post('/:id/addhospitals', authenticateToken, async (req, res) => {
 
 });
 
-addEnquries.get('/:id/hospital/wonandloss', authenticateToken, async (req, res) => {
+addEnquries.post('/:id/hospital/wonandloss', authenticateToken, async (req, res) => {
   try{
   const _id = { _id: req.query.enquries_id };
-  let data ;
+  
+  let data =req.body ;
+  let hospital_name;
+ 
   // console.log(req.query)
   // console.log(_id)
   let hospitals = [];
@@ -164,19 +167,52 @@ addEnquries.get('/:id/hospital/wonandloss', authenticateToken, async (req, res) 
 
       
       hospitals[i].status = "Won Patients";
+      hospitals[i].value=data.transaction
+      hospitals[i].commision=data.commission
+      hospital_name=hospitals[i].hospital_name
 
     }else{
       hospitals[i].status = "Lost Patients";
     }
   }
+
   const modify = {
     $set: {
       hospitals: hospitals,
       status:"Won Patients",
-      value:100000,
-      cumition:10000
+      value:data.transaction,
+      commission:data.commission,
+      hospital_name:hospital_name,
     }
   };
+  console.log(modify)
+  const enquries1 = await enquries.updateOne(_id, modify)
+  if (enquries1.nModified == 1) {
+    return res.status(200).json({ payload: true })
+  } else {
+    return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
+  }
+  }catch(err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  } 
+
+});
+
+
+
+addEnquries.post('/:id/feedback', authenticateToken, async (req, res) => {
+  try{
+  const _id = { _id: req.query.enquries_id };
+  
+  let data =req.body ;
+  
+  const modify = {
+    $set: {
+      feedbackrating:data.feedbackrating,
+      feedbackmessage:data.feedbackmessage
+    }
+  };
+  console.log(modify)
   const enquries1 = await enquries.updateOne(_id, modify)
   if (enquries1.nModified == 1) {
     return res.status(200).json({ payload: true })

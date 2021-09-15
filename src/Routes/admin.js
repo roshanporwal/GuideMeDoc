@@ -52,6 +52,7 @@ admin_api.post('/login', async (req, res) => {
     if (admin_present.password == req.body.password) {
       const auth = token.generateAccessToken({ login_id: login_id })
       admin_present.token = auth
+      admin_present.admin = true
       return res.status(200).json({ payload: admin_present })
     } else {
       return res.status(404).json({ error: "Not Found", message: "Password incorrect" })
