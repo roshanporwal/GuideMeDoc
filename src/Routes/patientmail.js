@@ -143,7 +143,10 @@ addEnquries.get('/hospitalstatus',  async (req, res) => {
 
   for(const enq of enqurie){
     const en = enq.hospitals.find(item => item.hospital_id === id)
-            
+    if(en===undefined){
+      continue
+    }
+       
     enquriesstatus.total+=1
     if(en.status==="new"){
         enquriesstatus.new+=1
