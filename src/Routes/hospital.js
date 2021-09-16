@@ -54,11 +54,11 @@ hospital_all_api.post('/login', async (req, res) => {
       hospital_present.token = auth
       return res.status(200).json({ payload: hospital_present })
     } else {
-      return res.status(404).json({ error: "Not Found", message: "Password incorrect" })
+      return res.status(200).json({ error: "Not Found", message: "Password incorrect" })
     }
   }
   else {
-    return res.status(404).json({ error: "Not Found", message: "login_id incorrect" })
+    return res.status(200).json({ error: "Not Found", message: "login_id incorrect" })
   }
 }catch(err) {
   return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
@@ -72,8 +72,11 @@ hospital_all_api.post('/:id/update', authenticateToken, async (req, res) => {
   const login_id = req.query;
   const modify = { $set: req.body };
   const hospital_update = await Hospital.updateOne(login_id, modify)
+  let hospital_present = await Hospital.findOne( login_id ).lean()
+  const auth = token.generateAccessToken(login_id)
+  hospital_present.token = auth
   if (hospital_update.nModified == 1) {
-    return res.status(200).json({ payload: true })
+    return res.status(200).json({ payload: hospital_present })
   } else if (hospital_update.n == 1) {
     return res.status(200).json({ payload: false, message: "Already up to date" })
   } else {
