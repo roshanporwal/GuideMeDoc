@@ -12,6 +12,7 @@ const generatePassword = require('../Api/password');
 const cors = require('cors');
 var authenticateToken = require("../middleware/verifytoken")
 var isadmin = require("../middleware/isadmin")
+var constants=require("../constant")
 
 
 
@@ -281,14 +282,14 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
   let insurance_path = `${dir}/` + (insurance.name)
   let identification_path = `${dir}/` + (identification.name)
   let patient_report_path = `${dir}/` + (patient_report.name)
-  let insurance_viewurl = "http://localhost:8080/view?filepath=" + insurance_path;
-  let insurance_downloadurl = "http://localhost:8080/download?filepath=" + insurance_path;
+  let insurance_viewurl = constants.apiBaseURL+"/view?filepath=" + insurance_path;
+  let insurance_downloadurl = constants.apiBaseURL+"/download?filepath=" + insurance_path;
 
-  let identification_viewurl = "http://localhost:8080/view?filepath=" + identification_path;
-  let identification_downloadurl = "http://localhost:8080/download?filepath=" + identification_path;
+  let identification_viewurl = constants.apiBaseURL+"/view?filepath=" + identification_path;
+  let identification_downloadurl = constants.apiBaseURL+"/download?filepath=" + identification_path;
 
-  let patient_report_viewurl = "http://localhost:8080/view?filepath=" + patient_report_path;
-  let patient_report_downloadurl = "http://localhost:8080/download?filepath=" + patient_report_path;
+  let patient_report_viewurl = constants.apiBaseURL+"/view?filepath=" + patient_report_path;
+  let patient_report_downloadurl = constants.apiBaseURL+"/download?filepath=" + patient_report_path;
 
   formValues.insurance_card_copy = [insurance_viewurl, insurance_downloadurl]
   formValues.identification_document = [identification_viewurl, identification_downloadurl];

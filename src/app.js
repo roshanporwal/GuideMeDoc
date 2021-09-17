@@ -32,8 +32,7 @@ app.get('/view', async (req, res) => {
   let ext = path.parse(filepath).ext;
   fs.readFile(filepath, (err, data) => {
     if (err) {
-      res.statusCode = 500;
-      res.end(err);
+      return res.status(200)
     } else {
       res.setHeader("ContentType", `application/${ext}`);
       res.end(data);
@@ -53,7 +52,7 @@ app.get('/download', async (req, res) => {
 
   res.download(filepath, (err) => {
     if (err) {
-      res.status(500).send({
+      res.status(404).json({
         message: "Could not download the file. " + err,
       });
     }

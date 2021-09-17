@@ -17,6 +17,7 @@ var crypto = require('crypto');
 var token = require("../middleware/genratetoken")
 var authenticateToken = require("../middleware/verifytoken");
 const { set } = require('mongoose');
+var constants=require("../constant")
 
 
 
@@ -46,7 +47,7 @@ doctor_all_api.post('/create', async (req, res) => {
           throw err;
 
       })
-      let doctor_avatar_viewurl = "http://localhost:8080/view?filepath=" + doctor_avatar_path;
+      let doctor_avatar_viewurl = constants.apiBaseURL+"/view?filepath=" + doctor_avatar_path;
       console.log(doctor_avatar_viewurl)
       formValues.avatar = doctor_avatar_viewurl
       formValues.avatar_name = formValues.login_id
@@ -112,11 +113,18 @@ doctor_all_api.post('/login', async (req, res) => {
 
 
 //update the doctor record
-doctor_all_api.post('/:id/update1', authenticateToken, async (req, res) => {
+doctor_all_api.post('/:id/update', authenticateToken, async (req, res) => {
   try {
     const formValues = JSON.parse(req.body.formValues)
+    const login_id = req.query;
     if (req.files) {
       let doctor_avatar = req.files.doctor_avatar;
+      const doctor_present = await Doctor.findOne( login_id ).lean()
+      if(doctor_present.avatar){
+        const pre_file= doctor_present.avatar.split("=")
+        console.log(pre_file[1])
+        fs.unlinkSync(pre_file[1])
+      }
       const dir = `./tmp/doctor_avatar`;
       fs.mkdir(dir, { recursive: true }, function (err) {
         if (err) {
@@ -130,12 +138,12 @@ doctor_all_api.post('/:id/update1', authenticateToken, async (req, res) => {
         if (err)
           throw err;
       })
-      let doctor_avatar_viewurl = "http://localhost:8080/view?filepath=" + doctor_avatar_path;
+      let doctor_avatar_viewurl = constants.apiBaseURL+"/view?filepath=" + doctor_avatar_path;
       console.log(doctor_avatar_viewurl)
       formValues.avatar = doctor_avatar_viewurl
       formValues.avatar_name = formValues.login_id
     }
-    const login_id = req.query;
+   
     const modify = { $set: formValues };
     const doctor_update = await Doctor.updateOne(login_id, modify)
     if (doctor_update.nModified == 1) {

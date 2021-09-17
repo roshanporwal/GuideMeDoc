@@ -7,6 +7,8 @@ const Hospital = require('../model/hospital')
 const cors = require('cors');
 var token = require("../middleware/genratetoken")
 var authenticateToken = require("../middleware/verifytoken")
+const fs = require('fs');
+var constants=require("../constant")
 
 
 
@@ -69,8 +71,39 @@ hospital_all_api.post('/login', async (req, res) => {
 //update the Hospital record
 hospital_all_api.post('/:id/update', authenticateToken, async (req, res) => {
   try{
-  const login_id = req.query;
-  const modify = { $set: req.body };
+    const formValues = req.body.formValues?JSON.parse(req.body.formValues):req.body
+    const login_id = req.query;
+    if (req.files) {
+      let hospital_present = await Hospital.findOne( login_id ).lean()
+      if(hospital_present.avatar){
+        const pre_file= hospital_present.avatar[0].split("=")
+        console.log(pre_file[1])
+        fs.unlinkSync(pre_file[1])
+      }
+     
+      let hospital_avatar = req.files.hospital_avatar;
+      const dir = `./tmp/hospital_avatar`;
+      fs.mkdir(dir, { recursive: true }, function (err) {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log("New directory successfully created.")
+        }
+      })
+      let hospital_avatar_path = `${dir}/` + (hospital_avatar.name)
+      hospital_avatar.mv(hospital_avatar_path, function (err, result) {
+        if (err)
+          throw err;
+      })
+      let hospital_avatar_viewurl = constants.apiBaseURL+"/view?filepath=" + hospital_avatar_path;
+      console.log(hospital_avatar_viewurl)
+      formValues.avatar = hospital_avatar_viewurl
+      formValues.avatar_name = formValues.login_id
+
+    }
+
+ 
+  const modify = { $set: formValues };
   const hospital_update = await Hospital.updateOne(login_id, modify)
   let hospital_present = await Hospital.findOne( login_id ).lean()
   const auth = token.generateAccessToken(login_id)
@@ -83,6 +116,7 @@ hospital_all_api.post('/:id/update', authenticateToken, async (req, res) => {
     return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
   }
 }catch(err) {
+  console.log(err)
   return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
 } 
 });

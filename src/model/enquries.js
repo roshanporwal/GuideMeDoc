@@ -33,7 +33,7 @@ const EnquriesSchema = new mongoose.Schema(
         feedbackmessage:{ type: String },
         airport_transfer_needed:{ type: String },
         ambulance_support_needed:{ type: String },
-        Medical_visa_arrangements:{ type: String },
+        medical_visa_arrangements:{ type: String },
         
 	},
 	{ collection: 'enquries' }
