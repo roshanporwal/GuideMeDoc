@@ -121,7 +121,7 @@ fileuplaodaddtodatabase.post('', async (req, res) => {
         }
 
 
-        res.send("All Done")
+        return res.status(200).json({ payload: true})
 
 
     } catch (err) {

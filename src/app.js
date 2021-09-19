@@ -12,10 +12,11 @@ const cors = require('cors');
 
 connectDB();
 app.use(express.json({ extended: false }));
+app.use('', require('./Routes/viewanddownload'));
 app.use('/doctor', require('./Routes/doctor'));
 app.use('/enquries', require('./Routes/addEnquries'));
 
-app.use('/upladfile', require('./Routes/upladfile'));
+app.use('/uploadexcel', require('./Routes/upladfile'));
 
 app.use('/admin', require('./Routes/admin'));
 app.use('/hospital', require('./Routes/hospital'));
@@ -23,46 +24,7 @@ app.use('/sendmail', require('./Routes/patientmail'));
 
 app.use(cors());
 
-app.get('/view', async (req, res) => {
-  try{
-  const abc = req.query;
-  console.log(abc);
-  const filepath = req.query.filepath;
-  console.log(filepath);
-  let ext = path.parse(filepath).ext;
-  fs.readFile(filepath, (err, data) => {
-    if (err) {
-      return res.status(200)
-    } else {
-      res.setHeader("ContentType", `application/${ext}`);
-      res.end(data);
-    }
-  })
-  }catch(err) {
-    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
-  } 
 
-});
-
-app.get('/download', async (req, res) => {
-  try{
-  const filepath = req.query.filepath;
-  console.log(filepath);
-
-
-  res.download(filepath, (err) => {
-    if (err) {
-      res.status(404).json({
-        message: "Could not download the file. " + err,
-      });
-    }
-  });
-}catch(err) {
-  console.log(err)
-  return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
-} 
-  //res.send(req.body)
-});
 
 
 const Port = process.env.Port || 8080;

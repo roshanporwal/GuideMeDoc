@@ -9,6 +9,7 @@ var token = require("../middleware/genratetoken")
 var authenticateToken = require("../middleware/verifytoken")
 const fs = require('fs');
 var constants=require("../constant")
+var isadmin = require("../middleware/isadmin")
 
 
 
@@ -32,7 +33,7 @@ hospital_all_api.post('/create', async (req, res) => {
     })
 
     if (create != null) {
-      return res.status(200).json({ payload: create })
+      return res.status(200).json({ payload: true })
     } else {
       return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
     }
@@ -151,7 +152,7 @@ hospital_all_api.get('/forhospital',authenticateToken, async (req, res) => {
 });*/
 
 //get all Hospital
-hospital_all_api.get('/:id', authenticateToken, async (req, res) => {
+hospital_all_api.get('/:id',  [authenticateToken, isadmin], async (req, res) => {
   try{
   const query = req.query;
   const hospital_all = await Hospital.find({})
@@ -176,7 +177,7 @@ hospital_all_api.get('/:id', authenticateToken, async (req, res) => {
 
 
 //get all Hospital
-hospital_all_api.get('/:id/alldata', authenticateToken, async (req, res) => {
+hospital_all_api.get('/:id/alldata', [authenticateToken, isadmin], async (req, res) => {
   try{
   const hospital_all = await Hospital.find({})
   if (hospital_all.length != 0) {

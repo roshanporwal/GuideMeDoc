@@ -18,6 +18,7 @@ var token = require("../middleware/genratetoken")
 var authenticateToken = require("../middleware/verifytoken");
 const { set } = require('mongoose');
 var constants=require("../constant")
+var isadmin = require("../middleware/isadmin")
 
 
 
@@ -192,7 +193,7 @@ doctor_all_api.get('/:id/forhospital', authenticateToken, async (req, res) => {
 });
 
 //get all doctor
-doctor_all_api.get('/:id/', authenticateToken, async (req, res) => {
+doctor_all_api.get('/:id/', [authenticateToken, isadmin], async (req, res) => {
   try {
     const query = req.query;
     const doctor_all = await Doctor.find({})
