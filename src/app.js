@@ -17,7 +17,7 @@ app.use('/doctor', require('./Routes/doctor'));
 app.use('/enquries', require('./Routes/addEnquries'));
 
 app.use('/uploadexcel', require('./Routes/upladfile'));
-
+app.use('/smartsearch', require('./Routes/smartsearch'));
 app.use('/admin', require('./Routes/admin'));
 app.use('/hospital', require('./Routes/hospital'));
 app.use('/sendmail', require('./Routes/patientmail'));

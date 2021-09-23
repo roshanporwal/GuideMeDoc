@@ -76,7 +76,7 @@ hospital_all_api.post('/:id/update', authenticateToken, async (req, res) => {
     const login_id = req.query;
     if (req.files) {
       let hospital_present = await Hospital.findOne( login_id ).lean()
-      if(hospital_present.avatar){
+      if(hospital_present.avatar[0]){
         const pre_file= hospital_present.avatar[0].split("=")
         console.log(pre_file[1])
         fs.unlinkSync(pre_file[1])

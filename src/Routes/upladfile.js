@@ -141,10 +141,11 @@ fileuplaodaddtodatabase.post('', async (req, res) => {
 fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
     try {
 
-        for (const fi of req.files.blogimage) {
+        
 
+            console.log(req.files)
+            let file = req.files.blogimage;
 
-            let file = fi;
             const dir = `./tmp/`;
             fs.mkdir(dir, { recursive: true }, function (err) {
                 if (err) {
@@ -243,7 +244,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
 
             await Hospital.updateOne({ login_id }, modify)
             fs.unlinkSync(path1)
-        }
+        
 
 
       

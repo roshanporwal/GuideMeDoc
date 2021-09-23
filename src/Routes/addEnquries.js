@@ -264,14 +264,58 @@ addEnquries.post('/:id/hospital/sendquote', authenticateToken, async (req, res) 
 //add new enquries
 addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
   try{
+    
+    const formValues = JSON.parse(req.body.formValues)
+    const dir = `./tmp/${formValues.patient_name}`;
+    console.log(req.files)
+    if(req.files !==null){
 
+    
+  //check insurance_card_copy is present or not
+  if(req.files.insurance_card_copy  ){
   
-  let insurance = req.files.insurance_card_copy;
-  const formValues = JSON.parse(req.body.formValues)
-  let identification = req.files.patient_document;
+
+    let insurance = req.files.insurance_card_copy;
+    fs.mkdir(dir, { recursive: true }, function (err) {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log("New directory successfully created.")
+      }
+    })
+    let insurance_path = `${dir}/` + (insurance.name)
+    let insurance_viewurl = constants.apiBaseURL+"/view?filepath=" + insurance_path;
+  let insurance_downloadurl = constants.apiBaseURL+"/download?filepath=" + insurance_path;
+  formValues.insurance_card_copy = [insurance_viewurl, insurance_downloadurl]
+  insurance.mv(insurance_path, function (err, result) {
+    if (err)
+      throw err;
+
+  })
+  }
+  //check for patient_document present or not
+  if(req.files.patient_document !== null){
+    let identification = req.files.patient_document;
+    fs.mkdir(dir, { recursive: true }, function (err) {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log("New directory successfully created.")
+      }
+    })
+    let identification_path = `${dir}/` + (identification.name)
+    let identification_viewurl = constants.apiBaseURL+"/view?filepath=" + identification_path;
+  let identification_downloadurl = constants.apiBaseURL+"/download?filepath=" + identification_path;
+  formValues.identification_document = [identification_viewurl, identification_downloadurl];
+  
+  identification.mv(identification_path, function (err, result) {
+    if (err)
+      throw err;
+  })
+  }
+   //check for patient_reports present or not
+  if(req.files.patient_reports !== null){
   let patient_report = req.files.patient_reports;
-  const dir = `./tmp/${formValues.patient_name}`;
-  console.log(identification)
   fs.mkdir(dir, { recursive: true }, function (err) {
     if (err) {
       console.log(err)
@@ -279,42 +323,22 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
       console.log("New directory successfully created.")
     }
   })
-  let insurance_path = `${dir}/` + (insurance.name)
-  let identification_path = `${dir}/` + (identification.name)
+
   let patient_report_path = `${dir}/` + (patient_report.name)
-  let insurance_viewurl = constants.apiBaseURL+"/view?filepath=" + insurance_path;
-  let insurance_downloadurl = constants.apiBaseURL+"/download?filepath=" + insurance_path;
-
-  let identification_viewurl = constants.apiBaseURL+"/view?filepath=" + identification_path;
-  let identification_downloadurl = constants.apiBaseURL+"/download?filepath=" + identification_path;
-
   let patient_report_viewurl = constants.apiBaseURL+"/view?filepath=" + patient_report_path;
-  let patient_report_downloadurl = constants.apiBaseURL+"/download?filepath=" + patient_report_path;
-
-  formValues.insurance_card_copy = [insurance_viewurl, insurance_downloadurl]
-  formValues.identification_document = [identification_viewurl, identification_downloadurl];
+  let patient_report_downloadurl = constants.apiBaseURL+"/download?filepath=" + patient_report_path; 
   formValues.reports = [patient_report_viewurl, patient_report_downloadurl];
-
-  insurance.mv(insurance_path, function (err, result) {
-    if (err)
-      throw err;
-
-  })
-  identification.mv(identification_path, function (err, result) {
-    if (err)
-      throw err;
-
-  })
   patient_report.mv(patient_report_path, function (err, result) {
     if (err)
       throw err;
 
   })
-  //console.log(JSON.stringify(formValues))
-
-  const enqurie = await enquries.create(formValues)
+}
+}
+   await enquries.create(formValues)
   return res.status(200).json({ payload: true })
 }catch(err) {
+  console.log(err)
   return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
 } 
 
