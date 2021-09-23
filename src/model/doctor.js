@@ -11,7 +11,8 @@ const DoctorSchema = new mongoose.Schema(
         languages: { type: String},
         password: { type: String },
         doctor_bio:{ type: String },
-        avatar:{ type: String }
+        avatar:{ type: String },
+        type:{ type: String },
 	},
 	{ collection: 'doctor' }
 )

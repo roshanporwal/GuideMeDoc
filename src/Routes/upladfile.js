@@ -199,6 +199,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
                 const sub_speciality = dr.sub_speciality;
                 const languages = dr.languages;
                 const charges = dr.CHARGES;
+                const type = dr.type;
                 const login_id = dr.DOCTOR_NAME.replace(/\s/g, "")
                 const doctor = await Doctor.findOne({ login_id }).lean()
                 const password = "admin"//generatePassword(12);
@@ -215,7 +216,8 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
                         languages,
                         charges,
                         hospital_id,
-                        password
+                        password,
+                        type
                     })
 
 
