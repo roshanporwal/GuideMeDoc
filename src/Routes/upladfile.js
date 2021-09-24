@@ -169,7 +169,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
             const google_location = hospital_data[0].Google_location;
             const address =  hospital_data[0].address? hospital_data[0].address:"Mangalmurti Complex,101,1st Floor,Hirabaug, Lokmanya Bal Gangadhar Tilak Rd, Pune, Maharashtra 411002"
             const phno = hospital_data[0].PhNo? hospital_data[0].PhNo:9876543210
-            const login_id = hospital_data[0].Hospital_Name.replace(/\s/g, "");
+            const login_id = hospital_data[0].login_id?hospital_data[0].login_id:hospital_data[0].Hospital_Name.replace(/\s/g, "");
             console.log(hospital_data[0])
            
             // const login_id = hospital_data[0].login_id;
