@@ -10,7 +10,7 @@ const HospitalSchema = new mongoose.Schema(
 		phno:{ type: String},
 		address:{ type: String},
 		images:{type :Array},
-		insurance:{type :Array},
+		insurance:{type :Buffer},
 		avatar:{type :Array},
 	},
 	{ collection: 'hospitals' }

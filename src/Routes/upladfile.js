@@ -345,8 +345,8 @@ fileuplaodaddtodatabase.post('/file', async (req, res) => {
 fileuplaodaddtodatabase.post('/file1', async (req, res) => {
     try {
         console.log("get it gdfg")
-        console.log(req.body)
-        /*let hospitals = []
+        
+        
 
             const login_id = "AlJalilasChildrenSpecialityHospital"
          
@@ -356,16 +356,9 @@ fileuplaodaddtodatabase.post('/file1', async (req, res) => {
 
 
            
-            hospitals = hospital_present.images
+          const  hospitals = req.body.data;
 
-            if (hospital_present.images.find(item => item === image_url)) {
-                console.log("Done")
-                continue
-            } else {
-                hospitals.push(image_url)
-            }
-            console.log(hospitals)
-
+            
             const modify = {
                 $set: {
                     images: hospitals
@@ -374,7 +367,7 @@ fileuplaodaddtodatabase.post('/file1', async (req, res) => {
 
             const enquries1 = await Hospital.updateOne({ login_id }, modify)
             if (enquries1.nModified == 1) {
-                continue
+                return res.status(200).json({ payload: true })
             } else {
                 return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
             }
@@ -382,7 +375,7 @@ fileuplaodaddtodatabase.post('/file1', async (req, res) => {
         
 
 
-        return res.status(200).json({ payload: hospitals })*/
+        return res.status(200).json({ payload: hospitals })
 
 
     } catch (err) {
