@@ -344,7 +344,7 @@ fileuplaodaddtodatabase.post('/file', async (req, res) => {
 
 fileuplaodaddtodatabase.post('/file1', async (req, res) => {
     try {
-        console.log("get it gdfg")
+        console.log("this is nik")
 
         var base64Data = req.body.data.replace(/^data:image\/png;base64,/, "");
 
