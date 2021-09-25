@@ -13,6 +13,7 @@ const DoctorSchema = new mongoose.Schema(
         doctor_bio:{ type: String },
         avatar:{ type: String },
         type:{ type: String },
+        gender:{ type: String },
 	},
 	{ collection: 'doctor' }
 )

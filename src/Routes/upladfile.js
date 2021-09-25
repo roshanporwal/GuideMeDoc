@@ -167,7 +167,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
             const hospital_name = hospital_data[0].Hospital_Name;
             console.log(hospital_name)
             const google_location = hospital_data[0].Google_location;
-            const address =  hospital_data[0].address? hospital_data[0].address:"Mangalmurti Complex,101,1st Floor,Hirabaug, Lokmanya Bal Gangadhar Tilak Rd, Pune, Maharashtra 411002"
+            const address =  hospital_data[0].Address? hospital_data[0].Address:"Mangalmurti Complex,101,1st Floor,Hirabaug, Lokmanya Bal Gangadhar Tilak Rd, Pune, Maharashtra 411002"
             const phno = hospital_data[0].PhNo? hospital_data[0].PhNo:9876543210
             const login_id = hospital_data[0].login_id?hospital_data[0].login_id:hospital_data[0].Hospital_Name.replace(/\s/g, "");
             console.log(hospital_data[0])
@@ -194,13 +194,14 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
             }
             for (const dr of doctor_hospital_data) {
 
-                const speciality = dr.SPECIALITY;
-                const doctor_name = dr.DOCTOR_NAME;
-                const sub_speciality = dr.sub_speciality;
-                const languages = dr.languages;
-                const charges = dr.CHARGES;
-                const type = dr.type;
-                const login_id = dr.DOCTOR_NAME.replace(/\s/g, "")
+                const speciality = dr.Speciality;
+                const doctor_name = dr.Doctor_Name;
+                const sub_speciality = dr.Sub_Speciality;
+                const languages = dr.Languages;
+                const charges = dr.Charges;
+                const gender=dr.Gender;
+                const type = dr.Type;
+                const login_id = dr.Doctor_Name.replace(/\s/g, "")
                 const doctor = await Doctor.findOne({ login_id }).lean()
                 const password = "admin"//generatePassword(12);
                 speciality1.push(speciality)
@@ -217,18 +218,19 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
                         charges,
                         hospital_id,
                         password,
-                        type
+                        type,
+                        gender
                     })
 
 
 
                 }
             }
-            const speciality =hospital_data[0].Specility? hospital_data[0].Specility:[...new Set(speciality1)]
+            const speciality =hospital_data[0].Speciality? hospital_data[0].Speciality:[...new Set(speciality1)]
             for (const ins of insurance_data) {
                 const res = {
                     insurance_company_name: ins.Insurance,
-                    nekwork: ins.Nekwork,
+                    network: ins.Network,
                     type: ins.Type
 
                 }
