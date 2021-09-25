@@ -344,15 +344,9 @@ fileuplaodaddtodatabase.post('/file', async (req, res) => {
 
 fileuplaodaddtodatabase.post('/file1', async (req, res) => {
     try {
-        console.log("this is nik")
-
-       /*  var base64Data = req.body.data.replace(/^data:image\/png;base64,/, "");
-
-        require("fs").writeFile("out.jpg", base64Data, 'base64', function(err) {
-          console.log(err);
-        }); */
-        
-        
+        console.log("get it gdfg")
+        console.log(req.body)
+        /*let hospitals = []
 
             const login_id = "AlJalilasChildrenSpecialityHospital"
          
@@ -362,9 +356,16 @@ fileuplaodaddtodatabase.post('/file1', async (req, res) => {
 
 
            
-          const  hospitals = req.body.data;
+            hospitals = hospital_present.images
 
-            
+            if (hospital_present.images.find(item => item === image_url)) {
+                console.log("Done")
+                continue
+            } else {
+                hospitals.push(image_url)
+            }
+            console.log(hospitals)
+
             const modify = {
                 $set: {
                     images: hospitals
@@ -373,7 +374,7 @@ fileuplaodaddtodatabase.post('/file1', async (req, res) => {
 
             const enquries1 = await Hospital.updateOne({ login_id }, modify)
             if (enquries1.nModified == 1) {
-                return res.status(200).json({ payload: true })
+                continue
             } else {
                 return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
             }
@@ -381,7 +382,7 @@ fileuplaodaddtodatabase.post('/file1', async (req, res) => {
         
 
 
-        return res.status(200).json({ payload: "http://192.46.209.112:8080/view?filepath=./out.jpg" })
+        return res.status(200).json({ payload: hospitals })*/
 
 
     } catch (err) {
