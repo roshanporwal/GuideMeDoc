@@ -346,15 +346,15 @@ fileuplaodaddtodatabase.post('/file1', async (req, res) => {
     try {
         console.log("this is nik")
 
-        var base64Data = req.body.data.replace(/^data:image\/png;base64,/, "");
+       /*  var base64Data = req.body.data.replace(/^data:image\/png;base64,/, "");
 
         require("fs").writeFile("out.jpg", base64Data, 'base64', function(err) {
           console.log(err);
-        });
+        }); */
         
         
 
-          /*  const login_id = "AlJalilasChildrenSpecialityHospital"
+            const login_id = "AlJalilasChildrenSpecialityHospital"
          
 
             const hospital_present = await Hospital.findOne({ login_id }).lean()
@@ -376,7 +376,7 @@ fileuplaodaddtodatabase.post('/file1', async (req, res) => {
                 return res.status(200).json({ payload: true })
             } else {
                 return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
-            }*/
+            }
 
         
 
