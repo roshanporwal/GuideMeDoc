@@ -341,6 +341,65 @@ fileuplaodaddtodatabase.post('/file', async (req, res) => {
 
 });
 
+
+fileuplaodaddtodatabase.post('/file1', async (req, res) => {
+    try {r
+        console.log("get it gdfg")
+        console.log(req.body)
+        /*let hospitals = []
+
+            const login_id = "AlJalilasChildrenSpecialityHospital"
+         
+
+            const hospital_present = await Hospital.findOne({ login_id }).lean()
+
+
+
+           
+            hospitals = hospital_present.images
+
+            if (hospital_present.images.find(item => item === image_url)) {
+                console.log("Done")
+                continue
+            } else {
+                hospitals.push(image_url)
+            }
+            console.log(hospitals)
+
+            const modify = {
+                $set: {
+                    images: hospitals
+                }
+            };
+
+            const enquries1 = await Hospital.updateOne({ login_id }, modify)
+            if (enquries1.nModified == 1) {
+                continue
+            } else {
+                return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
+            }
+
+        
+
+
+        return res.status(200).json({ payload: hospitals })*/
+
+
+    } catch (err) {
+        console.log(err)
+        return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+    }
+
+
+
+
+
+
+
+
+
+});
+
 fileuplaodaddtodatabase.get('/nik', async (req, res) => {
     try {
 
