@@ -343,7 +343,7 @@ fileuplaodaddtodatabase.post('/file', async (req, res) => {
 
 
 fileuplaodaddtodatabase.post('/file1', async (req, res) => {
-    try {r
+    try {
         console.log("get it gdfg")
         console.log(req.body)
         /*let hospitals = []
