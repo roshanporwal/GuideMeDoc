@@ -15,6 +15,7 @@ const cors = require('cors');
 const excel = require('exceljs');
 const enquries = require('../model/enquries');
 var constants=require("../constant")
+var sendmailtohospital = require("../middleware/sendmailtohospital");
 
 
 
@@ -173,11 +174,13 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
             console.log(hospital_data[0])
            
             // const login_id = hospital_data[0].login_id;
+            const removespace=hospital_data[0].Hospital_Name.replace(/\s/g, "")
+        
 
             let hospital_id;
             const hospital_present = await Hospital.findOne({ login_id }).lean()
             if (!hospital_present) {
-                const password = "admin"//generatePassword(12);
+                const password = removespace.substring(0, 4)+"1234"//"admin"//generatePassword(12);
                 const crhospital = await Hospital.create({
                     hospital_name,
                     google_location,
@@ -187,6 +190,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
                     phno
                 })
                 hospital_id = crhospital._id
+                await sendmailtohospital(crhospital)
 
             } else {
                 hospital_id = hospital_present._id

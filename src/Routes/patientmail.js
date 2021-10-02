@@ -18,6 +18,7 @@ const nodemailer=require('nodemailer');
 
 
 
+
 let sendmail = Router();
 sendmail.use(fileupload());
 sendmail.use(cors());
@@ -67,8 +68,19 @@ sendmail.get('/get', async (req, res) => {
         from: 'adeshadikane@yahoo.com',
         to: Email1,
         subject: 'link',
-        html: "<h3>link  </h3>"  + "<h1 style='font-weight:bold;'>" +req.body.url +"</h1>"
-        // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'        
+        html: "<page size = 'A4'>"+
+      
+        "<img src = 'http://proctologyalliance.com/view?filepath=./tmp/GuideMeDocLogo.png' alt = '' style = ' position: absolute; height: 100px;width: 200px;top: 0;right: 0;'>"+
+        
+        " <div style=' padding: 10rem; margin-top: 5rem;'><p>Dear  " +req.body.name+ "</p>"+
+           " <h5>Greatings from Guide Me Doc, a unique platform empowering patient's choice inHealthcare!!</h5>"+
+           
+           " <p>Please find below the link to access your treatment plan and estimates from various hospitals</p>"+
+           "<h5 style='font-weight:bold;'>" +req.body.url +"</h5>"+
+           " <p style = 'font-style: italic; text-align: center; margin-top: 10rem;'>If you have any further queries, please feel free to call us at<br><b>04 356 2356<br>between<br><b>9 am to 9 pm</b></b></p>"+
+       " </div>"
+        // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'  
+       
       };
       
       transporter.sendMail(mailOptions, function(error, info){

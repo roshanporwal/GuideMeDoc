@@ -335,7 +335,23 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
   })
 }
 }
-   await enquries.create(formValues)
+const creq=await enquries.create(formValues)
+
+let date = new Date();
+let year=date.getFullYear().toString()
+date = date.toJSON().split('-')
+let  final =year[3]+date[2][0]+date[2][1]+date[1]+"_"+creq._id
+console.log(final)
+const modify = {
+  $set: {
+    id: final
+  }
+};
+const _id = {
+  _id:creq._id
+}
+ await enquries.updateOne(_id, modify)
+   
   return res.status(200).json({ payload: true })
 }catch(err) {
   console.log(err)
