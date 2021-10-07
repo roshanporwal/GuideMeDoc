@@ -190,7 +190,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
                     phno
                 })
                 hospital_id = crhospital._id
-                await sendmailtohospital(crhospital)
+                //await sendmailtohospital(crhospital)
 
             } else {
                 hospital_id = hospital_present._id
@@ -230,7 +230,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
 
                 }
             }
-            const speciality =hospital_data[0].Speciality? hospital_data[0].Speciality:[...new Set(speciality1)]
+            const speciality =hospital_data[0].Speciality? hospital_data[0].Speciality.split(','):[...new Set(speciality1)]
             for (const ins of insurance_data) {
                 const res = {
                     insurance_company_name: ins.Insurance,
