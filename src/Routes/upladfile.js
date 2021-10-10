@@ -25,7 +25,10 @@ let fileuplaodaddtodatabase = Router();
 fileuplaodaddtodatabase.use(fileupload());
 fileuplaodaddtodatabase.use(cors());
 
+fileuplaodaddtodatabase.get('/hi', async (req, res) => {
+    await sendmailtohospital()
 
+})
 fileuplaodaddtodatabase.post('', async (req, res) => {
     try {
 
@@ -144,7 +147,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
 
         
 
-            console.log(req.files)
+           
             let file = req.files.blogimage;
 
             const dir = `./tmp/`;
@@ -164,14 +167,52 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
             var doctor_hospital_data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[1]]);
             const speciality1 = []
             let insurance = []
+            
+            if(!hospital_data[0].Hospital_Name){
+                fs.unlinkSync(path1)
+                return res.status(200).json({ payload: "Pls check Hospital_Name is not empty and header name is 'Hospital_Name' " })
+            }
+            if(!hospital_data[0].login_id){
+                fs.unlinkSync(path1)
+                return res.status(200).json({ payload: "Pls check login_id is not empty and header name is 'login_id' " })
+            }
+            if(!hospital_data[0].Address){
+                fs.unlinkSync(path1)
+                return res.status(200).json({ payload: "Pls check Address is not empty and header name is 'Address' " })
+            }
+
+            if(!hospital_data[0].PhNo){
+                fs.unlinkSync(path1)
+                return res.status(200).json({ payload: "Pls check PhNo is not empty and header name is 'PhNo' " })
+            }
+            if(!hospital_data[0].Speciality){
+
+                fs.unlinkSync(path1)
+                return res.status(200).json({ payload: "Pls check Speciality of hospital is not empty and header name is 'Speciality' " })
+            }
+
+
+            if(!doctor_hospital_data[0].Speciality){
+                fs.unlinkSync(path1)
+                return res.status(200).json({ payload: "Pls check Speciality of Doctor is not empty and header name is 'Speciality' " })
+            }
+
+            if(!doctor_hospital_data[0].Doctor_Name){
+                fs.unlinkSync(path1)
+                return res.status(200).json({ payload: "Pls check Doctor_Name is not empty and header name is 'Doctor_Name' " })
+            }
+            if(!doctor_hospital_data[0].Type){
+                fs.unlinkSync(path1)
+                return res.status(200).json({ payload: "Pls check Type is not empty and header name is 'Type' " })
+            }
 
             const hospital_name = hospital_data[0].Hospital_Name;
-            console.log(hospital_name)
+           
             const google_location = hospital_data[0].Google_location;
             const address =  hospital_data[0].Address? hospital_data[0].Address:"Mangalmurti Complex,101,1st Floor,Hirabaug, Lokmanya Bal Gangadhar Tilak Rd, Pune, Maharashtra 411002"
             const phno = hospital_data[0].PhNo? hospital_data[0].PhNo:9876543210
             const login_id = hospital_data[0].login_id?hospital_data[0].login_id:hospital_data[0].Hospital_Name.replace(/\s/g, "");
-            console.log(hospital_data[0])
+           
            
             // const login_id = hospital_data[0].login_id;
             const removespace=hospital_data[0].Hospital_Name.replace(/\s/g, "")
@@ -196,16 +237,29 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
                 hospital_id = hospital_present._id
                 //insurance=hospital_present.insurance
             }
-            for (const dr of doctor_hospital_data) {
+            for (let i =0 ;i<doctor_hospital_data.length;i++) {
+                if(!doctor_hospital_data[i].Speciality){
+                    fs.unlinkSync(path1)
+                    return res.status(200).json({ payload: `Pls check row number ${i+2} Speciality is not empty and header name is 'Speciality' ` })
+                }
+    
+                if(!doctor_hospital_data[i].Doctor_Name){
+                    fs.unlinkSync(path1)
+                    return res.status(200).json({ payload: `Pls check  row number ${i+2} Doctor_Name is not empty and header name is 'Doctor_Name' ` })
+                }
+                if(!doctor_hospital_data[i].Type){
+                    fs.unlinkSync(path1)
+                    return res.status(200).json({ payload: `Pls check  row number ${i+2}  Type is not empty and header name is 'Type' ` })
+                }
 
-                const speciality = dr.Speciality;
-                const doctor_name = dr.Doctor_Name;
-                const sub_speciality = dr.Sub_Speciality;
-                const languages = dr.Languages;
-                const charges = dr.Charges;
-                const gender=dr.Gender;
-                const type = dr.Type;
-                const login_id = dr.Doctor_Name.replace(/\s/g, "")
+                const speciality = doctor_hospital_data[i].Speciality;
+                const doctor_name = doctor_hospital_data[i].Doctor_Name;
+                const sub_speciality = doctor_hospital_data[i].Sub_Speciality;
+                const languages = doctor_hospital_data[i].Languages;
+                const charges = doctor_hospital_data[i].Charges;
+                const gender=doctor_hospital_data[i].Gender;
+                const type = doctor_hospital_data[i].Type;
+                const login_id = doctor_hospital_data[i].Doctor_Name.replace(/\s/g, "")
                 const doctor = await Doctor.findOne({ login_id }).lean()
                 const password = "admin"//generatePassword(12);
                 speciality1.push(speciality)
@@ -230,7 +284,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
 
                 }
             }
-            const speciality =hospital_data[0].Speciality? hospital_data[0].Speciality.split(','):[...new Set(speciality1)]
+            const speciality =hospital_data[0].Speciality? hospital_data[0].Speciality.split(','):[...new Set(speciality1)] 
             for (const ins of insurance_data) {
                 const res = {
                     insurance_company_name: ins.Insurance,
@@ -261,6 +315,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
 
     } catch (err) {
         console.log(err)
+        fs.unlinkSync(path1)
         return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
     }
 
