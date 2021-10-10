@@ -285,14 +285,22 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
                 }
             }
             const speciality =hospital_data[0].Speciality? hospital_data[0].Speciality.split(','):[...new Set(speciality1)] 
-            for (const ins of insurance_data) {
-                const res = {
-                    insurance_company_name: ins.Insurance,
-                    network: ins.Network,
-                    type: ins.Type
+            for (let i =0 ;i<insurance_data.length;i++ ) {
+                if(!insurance_data[i].Insurance){
+                    fs.unlinkSync(path1)
+                    return res.status(200).json({ payload: `Pls check row number ${i+2} Insurance is not empty and header name is 'Insurance' ` })
+                }
+                if(!insurance_data[i].Type){
+                    fs.unlinkSync(path1)
+                    return res.status(200).json({ payload: `Pls check row number ${i+2} Type in Insurance is not empty and header name is 'Type' ` })
+                }
+                const ins = {
+                    insurance_company_name: insurance_data[i].Insurance,
+                    network: insurance_data[i].Network,
+                    type: insurance_data[i].Type
 
                 }
-                insurance.push(res)
+                insurance.push(ins)
 
             }
 
