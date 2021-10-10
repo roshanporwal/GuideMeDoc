@@ -318,7 +318,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
 
 
       
-        return res.status(200).json({ payload: "All Done" })
+        return res.status(200).json({ payload: "File uploaded successfully" })
 
 
     } catch (err) {
