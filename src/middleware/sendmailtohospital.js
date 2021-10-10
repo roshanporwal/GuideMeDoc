@@ -9,10 +9,10 @@ const nodemailer=require('nodemailer');
     host: 'smtp.mail.yahoo.com',
     port: 465,
     service:'yahoo',
-    secure: false,
+    secure: true,
     auth: {
-       user: 'adeshadikane@yahoo.com',
-       pass: 'pjfffxpxejhdrhnz'
+       user: 'guidemedoc@yahoo.com',
+       pass: 'yeyasegsscekuiac'
     },
     debug: false,
     logger: true 
@@ -20,9 +20,9 @@ const nodemailer=require('nodemailer');
  
 
 var mailOptions = {
-    from: 'adeshadikane@yahoo.com',
+    from: 'guidemedoc@yahoo.com',
     to: Email1,
-    subject: 'link',
+    subject: 'Account Details :: Guide Me Doc',
     html: "<page size = 'A4'>"+
   
     "<img src = 'http://proctologyalliance.com/view?filepath=./tmp/GuideMeDocLogo.png' alt = '' style = ' position: absolute; height: 100px;width: 200px;top: 0;right: 0;'>"+

@@ -231,7 +231,7 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
                     phno
                 })
                 hospital_id = crhospital._id
-                //await sendmailtohospital(crhospital)
+                await sendmailtohospital(crhospital)
 
             } else {
                 hospital_id = hospital_present._id

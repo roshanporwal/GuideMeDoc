@@ -56,8 +56,8 @@ sendmail.get('/get', async (req, res) => {
         service:'yahoo',
         secure: false,
         auth: {
-           user: 'adeshadikane@yahoo.com',
-           pass: 'pjfffxpxejhdrhnz'
+          user: 'guidemedoc@yahoo.com',
+          pass: 'yeyasegsscekuiac'
         },
         debug: false,
         logger: true 
@@ -67,7 +67,7 @@ sendmail.get('/get', async (req, res) => {
     var mailOptions = {
         from: 'adeshadikane@yahoo.com',
         to: Email1,
-        subject: 'link',
+        subject: 'Quotation :: GuideMeDoc',
         html: "<page size = 'A4'>"+
       
         "<img src = 'http://proctologyalliance.com/view?filepath=./tmp/GuideMeDocLogo.png' alt = '' style = ' position: absolute; height: 100px;width: 200px;top: 0;right: 0;'>"+
