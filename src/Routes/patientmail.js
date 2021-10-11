@@ -51,21 +51,21 @@ sendmail.get('/get', async (req, res) => {
 
      // send mail with defined transport object
      let transporter = nodemailer.createTransport({
-        host: 'smtp.mail.yahoo.com',
-        port: 465,
-        service:'yahoo',
-        secure: false,
-        auth: {
-          user: 'guidemedoc@yahoo.com',
-          pass: 'yeyasegsscekuiac'
-        },
-        debug: false,
-        logger: true 
+      host: 'smtpout.secureserver.net',
+      port: 587,
+     // service:'yahoo',
+      secure: false,
+      auth: {
+         user: 'info@guidemedoc.com',
+         pass: 'Dubai@2021'
+      },
+      debug: false,
+      logger: false 
     });
      
-   
+    
     var mailOptions = {
-        from: 'adeshadikane@yahoo.com',
+        from: 'info@guidemedoc.com',
         to: Email1,
         subject: 'Quotation :: GuideMeDoc',
         html: "<page size = 'A4'>"+
