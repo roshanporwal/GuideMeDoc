@@ -30,13 +30,12 @@ smart_search.get('/ideal', async (req, res) => {
 
 smart_search.get('', async (req, res) => {
     try {
-        console.log(req.query)
-        if(req.query.insurance==='',req.query.speciality===''){
+        
+        if(req.query.insurance===''&&req.query.speciality===''){
             return res.status(200).json({ message: "empty filed" })
         }
         if (req.query.insurance) {
             const insurance = req.query.insurance;
-            console.log(insurance)
             let enqurie = await Hospital.find({
                 insurance: {
                     $elemMatch: {
@@ -46,13 +45,13 @@ smart_search.get('', async (req, res) => {
             })
             if(req.query.speciality /*&& enqurie.length !==0*/ ){
                 for(const sp of enqurie){
-                    console.log(req.query.speciality)
+                    
                    if( sp.speciality.find(item => item === req.query.speciality)){
-                    console.log("inside")
+                   
                    }else{
-                    console.log("outside")
+               
                     enqurie= enqurie.filter(item => item._id !== sp._id)
-                    console.log(enqurie.length)
+                   
                    }
 
 
@@ -63,7 +62,6 @@ smart_search.get('', async (req, res) => {
         }
         if (req.query.speciality) {
             const speciality = req.query.speciality;
-            console.log(speciality)
             let enqurie = await Hospital.find({
                 speciality: 
                     new RegExp(speciality, 'i')
