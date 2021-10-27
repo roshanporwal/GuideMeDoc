@@ -267,14 +267,14 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
     
     const formValues = JSON.parse(req.body.formValues)
     const dir = `./tmp/${formValues.patient_name}`;
-    console.log(req.files)
+    
     if(req.files !==null){
 
-    
+      
   //check insurance_card_copy is present or not
   if(req.files.insurance_card_copy  ){
   
-
+  
     let insurance = req.files.insurance_card_copy;
     fs.mkdir(dir, { recursive: true }, function (err) {
       if (err) {
@@ -294,7 +294,7 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
   })
   }
   //check for patient_document present or not
-  if(req.files.patient_document !== null){
+  if(req.files.patient_document ){
     let identification = req.files.patient_document;
     fs.mkdir(dir, { recursive: true }, function (err) {
       if (err) {
@@ -314,7 +314,7 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
   })
   }
    //check for patient_reports present or not
-  if(req.files.patient_reports !== null){
+  if(req.files.patient_reports){
   let patient_report = req.files.patient_reports;
   fs.mkdir(dir, { recursive: true }, function (err) {
     if (err) {
