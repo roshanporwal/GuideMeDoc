@@ -15,6 +15,7 @@ const generatePassword = require('../Api/password');
 const cors = require('cors');
 const excel = require('exceljs');
 const enquries = require('../model/enquries');
+const masterhospital=require('../model/masterhospital')
 var constants = require("../constant")
 var sendmailtohospital = require("../middleware/sendmailtohospital");
 
@@ -208,16 +209,18 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
         }
 
         const hospital_name = hospital_data[0].Hospital_Name;
+        const master_hospital = hospital_data[0].Master_Hospital;
 
         const google_location = hospital_data[0].Google_location;
         const address = hospital_data[0].Address ? hospital_data[0].Address : "Mangalmurti Complex,101,1st Floor,Hirabaug, Lokmanya Bal Gangadhar Tilak Rd, Pune, Maharashtra 411002"
         const phno = hospital_data[0].PhNo ? hospital_data[0].PhNo : 9876543210
-        const login_id = hospital_data[0].login_id ? hospital_data[0].login_id : hospital_data[0].Hospital_Name.replace(/\s/g, "");
+        let login_id = hospital_data[0].login_id ? hospital_data[0].login_id : hospital_data[0].Hospital_Name.replace(/\s/g, "");
+        let temp_login_id=login_id;
 
 
         // const login_id = hospital_data[0].login_id;
         const removespace = hospital_data[0].Hospital_Name.replace(/\s/g, "")
-
+       
 
         let hospital_id;
         const hospital_present = await Hospital.findOne({ login_id }).lean()
@@ -229,7 +232,8 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
                 login_id,
                 password,
                 address,
-                phno
+                phno,
+                master_hospital
             })
             hospital_id = crhospital._id
             await sendmailtohospital(crhospital)
@@ -237,6 +241,19 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
         } else {
             hospital_id = hospital_present._id
             //insurance=hospital_present.insurance
+        }
+        if(master_hospital){
+            login_id=master_hospital
+           let password=master_hospital
+            const master_hospital_present = await masterhospital.findOne({ login_id }).lean()
+            if(!master_hospital_present){
+                await masterhospital.create({
+                    login_id,
+                    password,
+                })
+
+            }
+
         }
         for (let i = 0; i < doctor_hospital_data.length; i++) {
             if (!doctor_hospital_data[i].Speciality) {
@@ -304,14 +321,23 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
             insurance.push(ins)
 
         }
+        login_id=temp_login_id
 
-
-        const modify = {
+        let modify = {
             $set: {
                 speciality: speciality,
                 insurance: insurance
             }
         };
+        if(master_hospital){
+             modify = {
+                $set: {
+                    speciality: speciality,
+                    insurance: insurance,
+                    master_hospital:master_hospital
+                }
+            };
+        }
 
         await Hospital.updateOne({ login_id }, modify)
         fs.unlinkSync(path1)

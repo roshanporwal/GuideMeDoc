@@ -12,6 +12,8 @@ const HospitalSchema = new mongoose.Schema(
 		images:{type :Array},
 		insurance:{type :Array},
 		avatar:{type :Array},
+		master_hospital:{ type: String},
+		token:{ type: String},
 	},
 	{ collection: 'hospitals' }
 )

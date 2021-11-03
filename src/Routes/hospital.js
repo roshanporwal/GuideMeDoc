@@ -10,6 +10,7 @@ var authenticateToken = require("../middleware/verifytoken")
 const fs = require('fs');
 var constants=require("../constant")
 var isadmin = require("../middleware/isadmin")
+const masterhospital=require('../model/masterhospital')
 
 
 
@@ -49,12 +50,33 @@ hospital_all_api.post('/create', async (req, res) => {
 //login Hospital
 hospital_all_api.post('/login', async (req, res) => {
   try{
-  const login_id = req.body.login_id;
-  const hospital_present = await Hospital.findOne({ login_id }).lean()
+  let login_id = req.body.login_id;
+  const master_hospital_present = await masterhospital.findOne({ login_id }).lean()
+    if (master_hospital_present) {
+      if (master_hospital_present.password == req.body.password) {
+        const master_hospital=login_id
+        let hospital_present = await Hospital.find({ master_hospital })
+        for(let i=0;i< hospital_present.length;i++){
+          login_id=hospital_present[i].login_id
+          const auth  =await token.generateAccessToken({ login_id: login_id })
+          hospital_present[i].token = auth
+        }
+        return res.status(200).json({ payload: {
+          allhospital:hospital_present,
+          master_hospital_check:true
+        } })
+      } else {
+        return res.status(200).json({ error: "Not Found", message: "Password incorrect" })
+      }
+    }
+   
+
+  const hospital_present = await Hospital.findOne({ login_id }).lean() 
   if (hospital_present) {
     if (hospital_present.password == req.body.password) {
       const auth = token.generateAccessToken({ login_id: login_id })
       hospital_present.token = auth
+      hospital_present.master_hospital_check=false
       return res.status(200).json({ payload: hospital_present })
     } else {
       return res.status(200).json({ error: "Not Found", message: "Password incorrect" })
