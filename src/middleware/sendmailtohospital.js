@@ -41,7 +41,6 @@ var mailOptions = {
     if (error) {
         return res.status(404).json({ error: error, message: "something went wrong pls check filed" })
     } else {
-        if(info.response==="250 OK , completed")
 
         next();
     }
