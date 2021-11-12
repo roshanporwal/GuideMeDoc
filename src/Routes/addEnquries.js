@@ -260,6 +260,24 @@ addEnquries.post('/:id/hospital/sendquote', authenticateToken, async (req, res) 
   } 
 
 });
+//remove doctor info
+addEnquries.delete('/:id/remove', authenticateToken, async (req, res) => {
+  try {
+    const login_id = req.query;
+    
+    const doctor_remove = await enquries.deleteOne( login_id )
+    
+
+    if (doctor_remove.deletedCount == 1) {
+
+      return res.status(200).json({ payload: true })
+    } else {
+      return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
+    }
+  } catch (err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  }
+});
 
 //add new enquries
 addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
