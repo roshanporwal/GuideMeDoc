@@ -70,7 +70,7 @@ sendmail.get('/get', async (req, res) => {
         subject: 'Quotation :: GuideMeDoc',
         html: "<page size = 'A4'>"+
       
-        "<img src = 'http://proctologyalliance.com/view?filepath=./tmp/GuideMeDocLogo.png' alt = '' style = ' position: absolute; height: 100px;width: 200px;top: 0;right: 0;'>"+
+        "<img src = 'http://192.46.209.112:8080/view?filepath=./tmp/GuideMeDocLogo.png' alt = '' style = ' position: absolute; height: 100px;width: 200px;top: 0;right: 0;'>"+
         
         " <div style=' padding: 10rem; margin-top: 5rem;'><p>Dear  " +req.body.name+ "</p>"+
            " <h5>Greatings from Guide Me Doc, a unique platform empowering patient's choice inHealthcare!!</h5>"+

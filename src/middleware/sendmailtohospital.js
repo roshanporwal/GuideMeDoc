@@ -25,7 +25,7 @@ var mailOptions = {
     subject: 'Account Details :: Guide Me Doc',
     html: "<page size = 'A4'>"+
   
-    "<img src = 'http://proctologyalliance.com/view?filepath=./tmp/GuideMeDocLogo.png' alt = '' style = ' position: absolute; height: 100px;width: 200px;top: 0;right: 0;'>"+
+    "<img src = 'http://192.46.209.112:8080/view?filepath=./tmp/GuideMeDocLogo.png' alt = '' style = ' position: absolute; height: 100px;width: 200px;top: 0;right: 0;'>"+
     
     " <div style=' padding: 10rem; margin-top: 5rem;'>"+
       "<h5>Congratulations !! Your hospital is now on panel of GuideMeDoc. Please find your login details below</h5>"+
