@@ -35,6 +35,7 @@ const EnquriesSchema = new mongoose.Schema(
         ambulance_support_needed:{ type: String },
         medical_visa_arrangements:{ type: String },
         id:{ type: String },
+        patient_lost_reason:{ type: String },
         
 	},
 	{ collection: 'enquries' }

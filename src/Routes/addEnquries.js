@@ -218,6 +218,7 @@ addEnquries.get('/:id/hospital/loss', authenticateToken, async (req, res) => {
       $set: {
         hospitals: hospitals,
         status: "Lost Patients",
+        patient_lost_reason:req.query.patient_lost_reason
       }
     };
     console.log(modify)
