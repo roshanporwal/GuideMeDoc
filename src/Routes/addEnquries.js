@@ -211,6 +211,7 @@ addEnquries.get('/:id/hospital/loss', authenticateToken, async (req, res) => {
     for (let i = 0; i < enquries_present.hospitals.length; i++) {
 
       hospitals[i].status = "Lost Patients";
+      hospitals[i].patient_lost_reason=req.query.patient_lost_reason
 
     }
 
