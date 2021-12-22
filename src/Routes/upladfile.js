@@ -18,6 +18,7 @@ const enquries = require('../model/enquries');
 const masterhospital=require('../model/masterhospital')
 var constants = require("../constant")
 var sendmailtohospital = require("../middleware/sendmailtohospital");
+var sendmailtomasterhospital = require("../middleware/sendmailtomasterhospital");
 
 
 
@@ -244,13 +245,15 @@ fileuplaodaddtodatabase.post('/insurance', async (req, res) => {
         }
         if(master_hospital){
             login_id=master_hospital
-           let password=master_hospital
-            const master_hospital_present = await masterhospital.findOne({ login_id }).lean()
+            const password = removespace.substring(0, 4) + "1234"
+            let master_hospital_present = await masterhospital.findOne({ login_id }).lean()
             if(!master_hospital_present){
-                await masterhospital.create({
+                master_hospital_present= await masterhospital.create({
                     login_id,
                     password,
                 })
+                master_hospital_present.hospital_name=hospital_name
+                await sendmailtomasterhospital(master_hospital_present)
 
             }
 
