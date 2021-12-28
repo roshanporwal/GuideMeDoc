@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 var fileupload = require('express-fileupload');
 const enquries = require('../model/enquries');
+const feedback = require('../model/feedback')
 const generatePassword = require('../Api/password');
 const cors = require('cors');
 var authenticateToken = require("../middleware/verifytoken")
@@ -239,19 +240,9 @@ addEnquries.get('/:id/hospital/loss', authenticateToken, async (req, res) => {
 
 addEnquries.post('/:id/feedback', authenticateToken, async (req, res) => {
   try {
-    const _id = { _id: req.query.enquries_id };
-
     let data = req.body;
-
-    const modify = {
-      $set: {
-        feedbackrating: data.feedbackrating,
-        feedbackmessage: data.feedbackmessage
-      }
-    };
-    console.log(modify)
-    const enquries1 = await enquries.updateOne(_id, modify)
-    if (enquries1.nModified == 1) {
+    const enquries1 = await feedback.create(data)
+    if (enquries1) {
       return res.status(200).json({ payload: true })
     } else {
       return res.status(404).json({ error: "Not Found", message: "something went wrong pls check filed" })
@@ -525,6 +516,18 @@ addEnquries.get('/:id/hospitalstatus', authenticateToken, async (req, res) => {
 
     }
     return res.status(200).json({ payload: [enquriesstatus] })
+  } catch (err) {
+    console.log(err)
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  }
+});
+
+addEnquries.get('/:id/allfeedback', authenticateToken,async (req, res) => {
+  try {
+  
+    const fe = await feedback.find({})
+    
+    return res.status(200).json({ payload:fe  })
   } catch (err) {
     console.log(err)
     return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
