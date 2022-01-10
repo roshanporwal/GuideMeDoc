@@ -21,6 +21,8 @@ app.use('/smartsearch', require('./Routes/smartsearch'));
 app.use('/admin', require('./Routes/admin'));
 app.use('/hospital', require('./Routes/hospital'));
 app.use('/sendmail', require('./Routes/patientmail'));
+app.use('/patient', require('./Routes/patient'));
+app.use('/patientenquries', require('./Routes/addenquriesfrompatient'));
 
 app.use(cors());
 

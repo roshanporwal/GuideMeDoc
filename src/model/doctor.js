@@ -5,7 +5,7 @@ const DoctorSchema = new mongoose.Schema(
 		speciality: { type: String },
 		hospital_id: { type: String },
         doctor_name: { type: String },
-        login_id: { type: String, required: true, unique: true },
+        login_id: { type: String, required: true },
         sub_speciality: { type: String},
         charges: { type: String},
         languages: { type: String},
