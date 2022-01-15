@@ -24,7 +24,55 @@ addEnquriespatient.use(cors());
 
 
 
-
+addEnquriespatient.get('/:id/enquiry/:patient', [authenticateToken, isadmin], async (req, res) => {
+  try {
+    const enqurie = await enquries.find({_id:req.params.patient})
+    return res.status(200).json({ payload: enqurie })
+  } catch (err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  }
+});
+addEnquriespatient.get('/:id/:spec', [authenticateToken, isadmin], async (req, res) => {
+  let search = []
+  if(req.params.spec === "new_consultation"){
+    search.push("new_consulation")
+    search.push("new_consultation")
+  }
+  else if(req.params.spec === "free_opinion"){
+    search.push("free_surgical_opinion")
+    search.push("interational_expert_opinion")
+  }
+  else if(req.params.spec === "home_care_services"){
+    search.push("rcpcrtest")
+    search.push("teleconsulation")
+    search.push("doctorhomevist")
+    search.push("physiotherapy")
+    search.push("nursingservice")
+  }
+  else if(req.params.spec === "lab_tests"){
+    search.push("lab")
+  }
+  else if(req.params.spec === "diagnostic"){
+    search.push("xray")
+    search.push("mammogram")
+    search.push("ctscan")
+    search.push("mri")
+    search.push("ultrasound")
+  }
+  else if(req.params.spec === "pharmacy"){
+    search.push("pharmacy")
+  }
+  try {
+    if(req.params.spec === "null"){
+      const enqurie = await enquries.find({})
+      return res.status(200).json({ payload: enqurie })
+    }
+    const enqurie = await enquries.find({type:search})
+    return res.status(200).json({ payload: enqurie })
+  } catch (err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  }
+});
 //add new enquries
 addEnquriespatient.post('/:id/create',authenticateToken, async (req, res) => {
   try {

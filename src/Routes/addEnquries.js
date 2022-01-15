@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 var fileupload = require('express-fileupload');
 const enquries = require('../model/enquries');
+const enquriesFromPatient = require('../model/enquriespatient');
 const feedback = require('../model/feedback')
 const generatePassword = require('../Api/password');
 const cors = require('cors');
@@ -26,8 +27,15 @@ addEnquries.use(cors());
 //get all enquries
 addEnquries.get('/:id', [authenticateToken, isadmin], async (req, res) => {
   try {
-
     const enqurie = await enquries.find({})
+    return res.status(200).json({ payload: enqurie })
+  } catch (err) {
+    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+  }
+});
+addEnquries.get('/:id/patient/:patient', [authenticateToken, isadmin], async (req, res) => {
+  try {
+    const enqurie = await enquries.find({_id:req.params.patient})
     return res.status(200).json({ payload: enqurie })
   } catch (err) {
     return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
@@ -424,7 +432,6 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
       _id: creq._id
     }
     await enquries.updateOne(_id, modify)
-
     return res.status(200).json({ payload: true })
   } catch (err) {
     console.log(err)

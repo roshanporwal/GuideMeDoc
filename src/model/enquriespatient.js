@@ -9,6 +9,7 @@ const EnquriesSchemapatient = new mongoose.Schema(
 		age: { type: String },
 		gender: { type: String },
 		email: { type: String },
+        mobile:{ type: String },
 		referred: { type: String },
 		nationality: { type: String },
 		identification_document: { type: Array },
@@ -30,18 +31,6 @@ const EnquriesSchemapatient = new mongoose.Schema(
         preferred_gender: { type: String },
         languages_prefer: { type: String },
         payment_mode: { type: String },
-
-
-
-        
-
-
-
-
-
-
-
-		
         preferred_hospital_visit: { type: String },
         current_diagnosis: { type: String },
         accomodation: { type: String },
