@@ -13,6 +13,7 @@ const PatientSchema = new mongoose.Schema(
 		identification_document: { type: Array },
 		insurance_card_copy: { type: Array},
 		insurance_name:{ type: String },
+		family: { type: Array },
 	},
 	{ collection: 'patient' }
 )
