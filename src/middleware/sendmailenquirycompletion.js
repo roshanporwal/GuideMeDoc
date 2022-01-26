@@ -71,7 +71,7 @@ let html = `
                                                     <span
                                                         style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                                 <p>
-                                                    <a href="http://guidemedoc.com/feedback"
+                                                    <a href="http://guidemedoc.com/feedback/${req.type}"
                                                         style="background:#34316E;text-decoration:none !important; display:inline-block; font-weight:500; margin-top:24px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Feedback Link</a></p>
                                                 </td>
                                             </tr>
