@@ -56,8 +56,9 @@ const EnquriesSchemapatient = new mongoose.Schema(
     medical_visa_arrangements: { type: String },
     id: { type: String },
     patient_lost_reason: { type: String },
-    family: { type: Array },
+    family: { type: Object },
     map_link : {type: String},
+    bill_amount : {type: String},
   },
   { collection: "enquriespatient" }
 );

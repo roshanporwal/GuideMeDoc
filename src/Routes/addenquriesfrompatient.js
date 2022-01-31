@@ -12,7 +12,7 @@ const cors = require("cors");
 var authenticateToken = require("../middleware/verifytoken");
 var isadmin = require("../middleware/isadmin");
 var constants = require("../constant");
-var sendmailenquirycompletion = require('../middleware/sendmailenquirycompletion')
+var sendmailenquirycompletion = require("../middleware/sendmailenquirycompletion");
 
 let addEnquriespatient = Router();
 addEnquriespatient.use(fileupload());
@@ -245,11 +245,15 @@ addEnquriespatient.get(
 
 addEnquriespatient.post("/:id/status", async (req, res) => {
   try {
+    const formValues = JSON.parse(req.body.formValues);
     enquries.findById(req.params.id).then((enquiry) => {
+      enquiry.hospital_name = formValues.hospital_name;
+      enquiry.commission = formValues.commision_value;
+      enquiry.bill_amount = formValues.bill_amount;
       enquiry.status = req.body.status;
       enquiry.save();
-      if(enquiry.status === "Completed"){
-        sendmailenquirycompletion(enquiry)
+      if (enquiry.status === "Completed") {
+        sendmailenquirycompletion(enquiry);
       }
     });
     return res.status(200).json({ payload: true });
