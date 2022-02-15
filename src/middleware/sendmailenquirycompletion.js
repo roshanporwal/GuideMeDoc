@@ -118,7 +118,7 @@ var mailOptions = {
   
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
-        return res.status(404).json({ error: error, message: "something went wrong pls check filed" })
+        // return res.status(404).json({ error: error, message: "something went wrong pls check filed" })
     } else {
 
         next();

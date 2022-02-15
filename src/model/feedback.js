@@ -7,7 +7,7 @@ const FeedbackSchema = new mongoose.Schema(
         hospital_name:{ type: String },
         feedbackrating:{ type: String },
         feedbackmessage:{ type: Array },
-        id:{ type: String },
+        patient_id:{ type: String },
         
 	},
 	{ collection: 'feedback' }

@@ -4,7 +4,7 @@ const EnquriesSchemapatient = new mongoose.Schema(
   {
     name: { type: String },
     password: { type: String },
-    age: { type: String },
+    dob: { type: String },
     gender: { type: String },
     email: { type: String },
     mobile: { type: String },
