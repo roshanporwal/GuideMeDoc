@@ -59,6 +59,7 @@ const EnquriesSchemapatient = new mongoose.Schema(
     family: { type: Object },
     map_link : {type: String},
     bill_amount : {type: String},
+    enquiry_date: {type: String}
   },
   { collection: "enquriespatient" }
 );
