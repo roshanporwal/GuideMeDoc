@@ -440,11 +440,49 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
 
 
 });
-
+function getAge(dateString) {
+  var today = new Date();
+  var birthDate = new Date(dateString);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+  }
+  return age;
+}
+function convert(str) {
+  if(str){
+  var date = new Date(str),
+    mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+    day = ("0" + date.getDate()).slice(-2);
+  return [day, mnth, date.getFullYear()].join("/");
+  }
+  else return ""
+}
+function convertTime(str) {
+  if(str){
+    var d = new Date(str);
+    var hr = d.getHours();
+    var min = d.getMinutes();
+    if (min < 10) {
+      min = "0" + min;
+    }
+    var ampm = "am";
+    if (hr > 12) {
+      hr -= 12;
+      ampm = "pm";
+    }
+    return hr + ":" + min + " " + ampm;
+  }
+  else 
+    return ""
+}
  //get enquries with quries
  addEnquries.get('/:id/transfer',  [authenticateToken, isadmin],async (req, res) => {
   try {
     var enquriesFromPatien = await enquriesFromPatient.findOne(req.query)
+    var languagePrefer = []
+    languagePrefer.push(enquriesFromPatien.languages_prefer)
     var formValues = {
       identification_document:enquriesFromPatien.identification_document,
       insurance_card_copy:enquriesFromPatien.insurance_card_copy,
@@ -458,6 +496,22 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
       patient_referred_by:enquriesFromPatien.referredby,
       type:enquriesFromPatien.referredby,
       subtype:enquriesFromPatien.subtype,
+      languages_spoken:languagePrefer,
+      current_diagnosis:enquriesFromPatien.subtype,
+      patient_age:getAge(enquriesFromPatien.dob),
+      proposal_date: convert(enquriesFromPatien.preferred_date_first),
+      proposal_date_time_first: convertTime(enquriesFromPatien.preferred_date_first),
+      proposal_date_second: convert(enquriesFromPatien.preferred_date_second),
+      proposal_date_time_second: convertTime(enquriesFromPatien.preferred_date_second),
+      insurance_name: enquriesFromPatien.insurance_name,
+      location: enquriesFromPatien.location,
+      enquiry_date: convert(enquriesFromPatien.enquiry_date),
+      family: enquriesFromPatien.family,
+      patient_address: enquriesFromPatien.address_patient,
+      map_link: enquriesFromPatien.map_link,
+      payment_mode: enquriesFromPatien.payment_mode,
+      time_period: enquriesFromPatien.time_period,
+      nursing_date_range: enquriesFromPatien.nursing_date_range,
       status:"New"
     }
     const creq = await enquries.create(formValues)
@@ -478,7 +532,7 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
     await enquries.updateOne(_id, modify)
     await enquriesFromPatient.deleteOne(req.query)
 
-    return res.status(200).json({ payload: true })
+    return res.status(200).json({ payload: creq._id })
   }
   catch (err) {
     return res.status(404).json({ error: err, message: "something went wrong pls check filed" })

@@ -38,6 +38,17 @@ const EnquriesSchema = new mongoose.Schema(
         patient_lost_reason:{ type: String },
         type:{ type: String },
         subtype: { type: String },
+        proposal_date_time_first:{ type: String},
+        proposal_date_second:{ type: String},
+        proposal_date_time_second: {type: String},
+        location: { type: String },
+        enquiry_date: {type: String},
+        family: { type: Object },
+        patient_address: { type: String },
+        map_link : {type: String},
+        payment_mode: { type: String },
+        time_period: {type: String},
+        nursing_date_range: {type: String}
 	},
 	{ collection: 'enquries' }
 )
