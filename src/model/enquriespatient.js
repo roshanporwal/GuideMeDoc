@@ -40,7 +40,6 @@ const EnquriesSchemapatient = new mongoose.Schema(
     proposed_treatment_plan: { type: Array },
     to_date: { type: String },
     transport_support_needed: { type: String },
-    insurance_card_copy: { type: Array },
     identification_document: { type: Array },
     reports: { type: Array },
     status: { type: String },
@@ -59,6 +58,9 @@ const EnquriesSchemapatient = new mongoose.Schema(
     family: { type: Object },
     map_link : {type: String},
     bill_amount : {type: String},
+    enquiry_date: {type: String},
+    time_period: {type: String},
+    nursing_date_range: {type: String}
   },
   { collection: "enquriespatient" }
 );

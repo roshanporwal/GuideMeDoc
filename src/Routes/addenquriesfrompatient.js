@@ -36,36 +36,12 @@ addEnquriespatient.get(
   "/:id/:spec",
   [authenticateToken, isadmin],
   async (req, res) => {
-    let search = [];
-    if (req.params.spec === "new_consultation") {
-      search.push("new_consulation");
-      search.push("new_consultation");
-    } else if (req.params.spec === "free_opinion") {
-      search.push("free_surgical_opinion");
-      search.push("interational_expert_opinion");
-    } else if (req.params.spec === "home_care_services") {
-      search.push("rcpcrtest");
-      search.push("teleconsulation");
-      search.push("doctorhomevist");
-      search.push("physiotherapy");
-      search.push("nursingservice");
-    } else if (req.params.spec === "lab_tests") {
-      search.push("lab");
-    } else if (req.params.spec === "diagnostic") {
-      search.push("xray");
-      search.push("mammogram");
-      search.push("ctscan");
-      search.push("mri");
-      search.push("ultrasound");
-    } else if (req.params.spec === "pharmacy") {
-      search.push("pharmacy");
-    }
     try {
       if (req.params.spec === "null") {
         const enqurie = await enquries.find({});
         return res.status(200).json({ payload: enqurie });
       }
-      const enqurie = await enquries.find({ type: search });
+      const enqurie = await enquries.find({ type: req.params.spec });
       return res.status(200).json({ payload: enqurie });
     } catch (err) {
       return res
@@ -80,6 +56,7 @@ addEnquriespatient.post("/:id/create", authenticateToken, async (req, res) => {
     console.log("hi");
     const formValues = JSON.parse(req.body.formValues);
     console.log(formValues);
+    formValues['enquiry_date'] = new Date()
     const dir = `./tmp/${formValues.name}`;
     formValues.reports = [];
     if (req.files !== null) {

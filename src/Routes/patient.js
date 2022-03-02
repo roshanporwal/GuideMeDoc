@@ -20,11 +20,18 @@ patient_api.post("/create", async (req, res) => {
     console.log("JO");
     const formValues = JSON.parse(req.body.formValues);
     console.log(formValues);
+    const dir = `./tmp/${formValues.name}`;
     console.log(req.files);
-
+    fs.mkdir(dir, { recursive: true }, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("New directory successfully created.");
+      }
+    });
     const login_id = formValues.mobile;
     formValues.login_id = formValues.mobile;
-    const dir = `./tmp/${formValues.name}`;
+
     formValues.reports = [];
     if (req.files !== null) {
       //check insurance_card_copy is present or not
@@ -32,13 +39,7 @@ patient_api.post("/create", async (req, res) => {
         console.log("HI");
 
         let insurance = req.files.insurance_card_copy;
-        fs.mkdir(dir, { recursive: true }, function (err) {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log("New directory successfully created.");
-          }
-        });
+        
         let insurance_path = `${dir}/` + insurance.name;
         let insurance_viewurl =
           constants.apiBaseURL + "/view?filepath=" + insurance_path;
@@ -205,6 +206,13 @@ patient_api.post("/:id/addfamily", async (req, res) => {
     if (patient.family.length < 5) {
       try {
         const dir = `./tmp/${patient.name}`;
+        fs.mkdir(dir, { recursive: true }, function (err) {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log("New directory successfully created.")
+          }
+        })
         if (req.files !== null) {
           //check insurance_card_copy is present or not
           if (req.files.insurance_card_copy) {
@@ -219,7 +227,7 @@ patient_api.post("/:id/addfamily", async (req, res) => {
               insurance_downloadurl,
             ];
             insurance.mv(insurance_path, function (err, result) {
-              if (err) throw err;
+              if (err) {console.log(err);throw err};
             });
           }
         }
