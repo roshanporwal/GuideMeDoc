@@ -60,7 +60,8 @@ const EnquriesSchemapatient = new mongoose.Schema(
     bill_amount : {type: String},
     enquiry_date: {type: String},
     time_period: {type: String},
-    nursing_date_range: {type: String}
+    nursing_date_range: {type: String},
+    medicine_name: {type: String}
   },
   { collection: "enquriespatient" }
 );

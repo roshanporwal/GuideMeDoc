@@ -512,6 +512,7 @@ function convertTime(str) {
       payment_mode: enquriesFromPatien.payment_mode,
       time_period: enquriesFromPatien.time_period,
       nursing_date_range: enquriesFromPatien.nursing_date_range,
+      medicine_name: enquriesFromPatien.medicine_name,
       status:"New"
     }
     const creq = await enquries.create(formValues)
