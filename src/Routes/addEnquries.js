@@ -338,8 +338,8 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
           }
         })
         let insurance_path = `${dir}/` + (insurance.name)
-        let insurance_viewurl = constants.apiBaseURL + "/view?filepath=" + insurance_path;
-        let insurance_downloadurl = constants.apiBaseURL + "/download?filepath=" + insurance_path;
+        let insurance_viewurl =  "/view?filepath=" + insurance_path;
+        let insurance_downloadurl =  "/download?filepath=" + insurance_path;
         formValues.insurance_card_copy = [insurance_viewurl, insurance_downloadurl]
         insurance.mv(insurance_path, function (err, result) {
           if (err)
@@ -358,8 +358,8 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
           }
         })
         let identification_path = `${dir}/` + (identification.name)
-        let identification_viewurl = constants.apiBaseURL + "/view?filepath=" + identification_path;
-        let identification_downloadurl = constants.apiBaseURL + "/download?filepath=" + identification_path;
+        let identification_viewurl =  "/view?filepath=" + identification_path;
+        let identification_downloadurl =  "/download?filepath=" + identification_path;
         formValues.identification_document = [identification_viewurl, identification_downloadurl];
 
         identification.mv(identification_path, function (err, result) {
@@ -380,8 +380,8 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
           })
 
           let patient_report_path = `${dir}/` + (patient_report.name)
-          let patient_report_viewurl = constants.apiBaseURL + "/view?filepath=" + patient_report_path;
-          let patient_report_downloadurl = constants.apiBaseURL + "/download?filepath=" + patient_report_path;
+          let patient_report_viewurl =  "/view?filepath=" + patient_report_path;
+          let patient_report_downloadurl =  "/download?filepath=" + patient_report_path;
           formValues.reports = [patient_report_viewurl, patient_report_downloadurl];
           patient_report.mv(patient_report_path, function (err, result) {
             if (err)
@@ -403,8 +403,8 @@ addEnquries.post('/:id/create', authenticateToken, async (req, res) => {
             })
 
             let patient_report_path = `${dir}/` + (patient_report.name)
-            let patient_report_viewurl = constants.apiBaseURL + "/view?filepath=" + patient_report_path;
-            let patient_report_downloadurl = constants.apiBaseURL + "/download?filepath=" + patient_report_path;
+            let patient_report_viewurl =  "/view?filepath=" + patient_report_path;
+            let patient_report_downloadurl =  "/download?filepath=" + patient_report_path;
             formValues.reports.push(patient_report_viewurl)
             formValues.reports.push(patient_report_downloadurl)
             patient_report.mv(patient_report_path, function (err, result) {

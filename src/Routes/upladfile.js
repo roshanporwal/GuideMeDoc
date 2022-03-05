@@ -387,7 +387,7 @@ fileuplaodaddtodatabase.post('/file', async (req, res) => {
 
 
             // const login_id = hospital_data[0].login_id;
-            let image_url = constants.apiBaseURL + "/view?filepath=" + path1;
+            let image_url =  "/view?filepath=" + path1;
 
             const hospital_present = await Hospital.findOne({ login_id }).lean()
 

@@ -42,9 +42,9 @@ patient_api.post("/create", async (req, res) => {
         
         let insurance_path = `${dir}/` + insurance.name;
         let insurance_viewurl =
-          constants.apiBaseURL + "/view?filepath=" + insurance_path;
+           "/view?filepath=" + insurance_path;
         let insurance_downloadurl =
-          constants.apiBaseURL + "/download?filepath=" + insurance_path;
+           "/download?filepath=" + insurance_path;
         formValues.insurance_card_copy = [
           insurance_viewurl,
           insurance_downloadurl,
@@ -65,9 +65,9 @@ patient_api.post("/create", async (req, res) => {
         });
         let identification_path = `${dir}/` + identification.name;
         let identification_viewurl =
-          constants.apiBaseURL + "/view?filepath=" + identification_path;
+           "/view?filepath=" + identification_path;
         let identification_downloadurl =
-          constants.apiBaseURL + "/download?filepath=" + identification_path;
+           "/download?filepath=" + identification_path;
         formValues.identification_document = [
           identification_viewurl,
           identification_downloadurl,
@@ -91,9 +91,9 @@ patient_api.post("/create", async (req, res) => {
 
           let patient_report_path = `${dir}/` + patient_report.name;
           let patient_report_viewurl =
-            constants.apiBaseURL + "/view?filepath=" + patient_report_path;
+             "/view?filepath=" + patient_report_path;
           let patient_report_downloadurl =
-            constants.apiBaseURL + "/download?filepath=" + patient_report_path;
+             "/download?filepath=" + patient_report_path;
           formValues.reports = [
             patient_report_viewurl,
             patient_report_downloadurl,
@@ -114,9 +114,9 @@ patient_api.post("/create", async (req, res) => {
 
             let patient_report_path = `${dir}/` + patient_report.name;
             let patient_report_viewurl =
-              constants.apiBaseURL + "/view?filepath=" + patient_report_path;
+               "/view?filepath=" + patient_report_path;
             let patient_report_downloadurl =
-              constants.apiBaseURL +
+              
               "/download?filepath=" +
               patient_report_path;
             formValues.reports.push(patient_report_viewurl);
@@ -219,9 +219,9 @@ patient_api.post("/:id/addfamily", async (req, res) => {
             let insurance = req.files.insurance_card_copy;
             let insurance_path = `${dir}/` + insurance.name;
             let insurance_viewurl =
-              constants.apiBaseURL + "/view?filepath=" + insurance_path;
+               "/view?filepath=" + insurance_path;
             let insurance_downloadurl =
-              constants.apiBaseURL + "/download?filepath=" + insurance_path;
+               "/download?filepath=" + insurance_path;
             req.body.insurance_card_copy = [
               insurance_viewurl,
               insurance_downloadurl,
