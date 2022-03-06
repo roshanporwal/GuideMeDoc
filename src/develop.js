@@ -40,7 +40,7 @@ const Port = process.env.Port || 8082;
 // server.listen(Port);
 // server.on('error', onError);
 // server.on('listening', onListening)
-app.set('secPort',Port+443);
+app.set('secPort',Port);
 
 var options = {
     // key: fs.readFileSync(__dirname+'/private.key'),
