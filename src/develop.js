@@ -9,7 +9,7 @@ var https = require('https');
 var debug = require('debug')('bkserver:server');
 var fs = require('fs');
 const cors = require('cors');
-// var http = require('http');
+var http = require('http');
 
 
 connectDB();
@@ -32,21 +32,21 @@ app.use(cors());
 
 
 const Port = process.env.Port || 8082;
-// app.listen(Port, () => console.log('Server started'));
+app.listen(Port, () => console.log('Server started '+Port));
 
 
-// var server = http.createServer(app);
+var server = http.createServer(app);
 
 // server.listen(Port);
 // server.on('error', onError);
 // server.on('listening', onListening)
-app.set('secPort',Port);
+app.set('secPort',Port+443);
 
 const certDir = `/etc/letsencrypt/live`;
 const domain = `guidemedoc.com`;
 const options = {
-  key: fs.readFileSync(`${certDir}/${domain}/privkey.pem`),
-  cert: fs.readFileSync(`${certDir}/${domain}/fullchain.pem`)
+  key: fs.readFileSync(__dirname+`/privkey.pem`),
+  cert: fs.readFileSync(__dirname+`/fullchain.pem`)
 };
 
   var secureServer = https.createServer(options,app);
