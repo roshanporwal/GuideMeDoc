@@ -32,29 +32,30 @@ app.use(cors());
 
 
 const Port = process.env.Port || 8500;
-// app.listen(Port, () => console.log('Server started'));
+app.listen(Port, () => console.log('Server started'));
 
 
-// var server = http.createServer(app);
+var server = http.createServer(app);
 
-// server.listen(Port);
-// server.on('error', onError);
-// server.on('listening', onListening)
-app.set('secPort',Port+23);
+server.on('error', onError);
+server.on('listening', onListening)
 
-const certDir = `/etc/letsencrypt/live`;
-const domain = `guidemedoc.com`;
-const options = {
-  key: fs.readFileSync(`${certDir}/${domain}/privkey.pem`),
-  cert: fs.readFileSync(`${certDir}/${domain}/fullchain.pem`)
-};
 
-  var secureServer = https.createServer(options,app);
-  secureServer.listen(app.get('secPort'), () => {
-    console.log('Server listening on port ',app.get('secPort'));
- });
- secureServer.on('error', onError);
- secureServer.on('listening', onListening);
+// app.set('secPort',Port+23);
+
+// const certDir = `/etc/letsencrypt/live`;
+// const domain = `guidemedoc.com`;
+// const options = {
+//   key: fs.readFileSync(`${certDir}/${domain}/privkey.pem`),
+//   cert: fs.readFileSync(`${certDir}/${domain}/fullchain.pem`)
+// };
+
+//   var secureServer = https.createServer(options,app);
+//   secureServer.listen(app.get('secPort'), () => {
+//     console.log('Server listening on port ',app.get('secPort'));
+//  });
+//  secureServer.on('error', onError);
+//  secureServer.on('listening', onListening);
 
  /**
  * Event listener for HTTP server "error" event.
@@ -89,7 +90,7 @@ function onError(error) {
    */
   
   function onListening() {
-    var addr = secureServer.address();
+    var addr = server.address();
     var bind = typeof addr === 'string'
       ? 'pipe ' + addr
       : 'port ' + addr.Port;
