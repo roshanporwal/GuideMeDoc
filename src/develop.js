@@ -35,10 +35,10 @@ const Port = process.env.Port || 8080;
 app.listen(Port, () => console.log('Server started'));
 
 
-var server = http.createServer(app);
+// var server = http.createServer(app);
 
-server.on('error', onError);
-server.on('listening', onListening)
+// server.on('error', onError);
+// server.on('listening', onListening)
 
 
 // app.set('secPort',Port+23);
