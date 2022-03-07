@@ -37,10 +37,10 @@ app.listen(Port, () => console.log('Server started'));
 
 var server = http.createServer(app);
 
-server.listen(Port);
+// server.listen(Port);
 server.on('error', onError);
 server.on('listening', onListening)
-// app.set('secPort',Port+23);
+app.set('secPort',Port+23);
 
 const certDir = `/etc/letsencrypt/live`;
 const domain = `guidemedoc.com`;
