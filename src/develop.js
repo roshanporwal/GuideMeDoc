@@ -32,14 +32,14 @@ app.use(cors());
 
 
 const Port = process.env.Port || 8500;
-app.listen(Port, () => console.log('Server started'));
+// app.listen(Port, () => console.log('Server started'));
 
 
-var server = http.createServer(app);
+// var server = http.createServer(app);
 
 // server.listen(Port);
-server.on('error', onError);
-server.on('listening', onListening)
+// server.on('error', onError);
+// server.on('listening', onListening)
 app.set('secPort',Port+23);
 
 const certDir = `/etc/letsencrypt/live`;
