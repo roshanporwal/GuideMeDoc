@@ -43,7 +43,7 @@ const Port = process.env.Port || 8082;
 app.set('secPort',Port);
 
 const certDir = `/etc/letsencrypt/live`;
-const domain = `guidemedoc.om`;
+const domain = `guidemedoc.com`;
 const options = {
   key: fs.readFileSync(`${certDir}/${domain}/privkey.pem`),
   cert: fs.readFileSync(`${certDir}/${domain}/fullchain.pem`)
