@@ -31,7 +31,7 @@ app.use(cors());
 
 
 
-const Port = process.env.Port || 8082;
+const Port = process.env.Port || 8080;
 app.listen(Port, () => console.log('Server started'));
 
 
@@ -57,42 +57,42 @@ app.listen(Port, () => console.log('Server started'));
 //  secureServer.on('error', onError);
 //  secureServer.on('listening', onListening);
 
- /**
- * Event listener for HTTP server "error" event.
- */
+//  /**
+//  * Event listener for HTTP server "error" event.
+//  */
 
-function onError(error) {
-    if (error.syscall !== 'listen') {
-      throw error;
-    }
+// function onError(error) {
+//     if (error.syscall !== 'listen') {
+//       throw error;
+//     }
   
-    var bind = typeof Port === 'string'
-      ? 'Pipe ' + Port
-      : 'Port ' + Port;
+//     var bind = typeof Port === 'string'
+//       ? 'Pipe ' + Port
+//       : 'Port ' + Port;
   
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-      case 'EACCES':
-        console.error(bind + ' requires elevated privileges');
-        process.exit(1);
-        break;
-      case 'EADDRINUSE':
-        console.error(bind + ' is already in use');
-        process.exit(1);
-        break;
-      default:
-        throw error;
-    }
-  }
+//     // handle specific listen errors with friendly messages
+//     switch (error.code) {
+//       case 'EACCES':
+//         console.error(bind + ' requires elevated privileges');
+//         process.exit(1);
+//         break;
+//       case 'EADDRINUSE':
+//         console.error(bind + ' is already in use');
+//         process.exit(1);
+//         break;
+//       default:
+//         throw error;
+//     }
+//   }
   
-  /**
-   * Event listener for HTTP server "listening" event.
-   */
+//   /**
+//    * Event listener for HTTP server "listening" event.
+//    */
   
-  function onListening() {
-    var addr = server.address();
-    var bind = typeof addr === 'string'
-      ? 'pipe ' + addr
-      : 'port ' + addr.Port;
-    debug('Listening on ' + bind);
-  }
+//   function onListening() {
+//     var addr = secureServer.address();
+//     var bind = typeof addr === 'string'
+//       ? 'pipe ' + addr
+//       : 'port ' + addr.Port;
+//     debug('Listening on ' + bind);
+//   }
