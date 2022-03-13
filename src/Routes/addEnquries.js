@@ -265,26 +265,31 @@ addEnquries.post('/:id/hospital/sendquote', authenticateToken, async (req, res) 
   try {
     const _id = { _id: req.query.enquries_id };
     const data = req.body
+    // console.log(data)
     // console.log(req.query)
     // console.log(_id)
     let hospitals = [];
     const enquries_present = await enquries.findOne({ _id }).lean()
+    // console.log(enquries_present)
     hospitals = enquries_present.hospitals
-
+    var quote_sent = 0
     for (let i = 0; i < enquries_present.hospitals.length; i++) {
       if (enquries_present.hospitals[i].hospital_id === req.query.hospital_id) {
         data.hospital_name = enquries_present.hospitals[i].hospital_name
         data.hospital_id = req.query.hospital_id;
         hospitals[i] = data
-
       }
+      if(enquries_present.hospitals[i].status !== "new")
+        quote_sent++;
     }
     const modify = {
       $set: {
-        hospitals: hospitals
+        hospitals: hospitals,
+        status: quote_sent < enquries_present.hospitals.length ? (quote_sent + "/" + enquries_present.hospitals.length + " quotes recieved") : "All Quotes Recieved"
       }
     };
     const enquries1 = await enquries.updateOne(_id, modify)
+    // console.log(enquries1)
     if (enquries1.nModified == 1) {
       return res.status(200).json({ payload: true })
     } else {
