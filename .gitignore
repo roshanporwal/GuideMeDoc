@@ -6,6 +6,7 @@
 .pnp.js
 
 # testing
+/DB/Connnection.js
 /coverage
 
 # production
@@ -21,3 +22,5 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+src/DB/Conncection.js
+src/DB/.Conncection.js
