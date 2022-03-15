@@ -43,12 +43,16 @@ const Port = process.env.Port || 8080;
 
 app.set('secPort',Port+2);
 
-const certDir = `/etc/letsencrypt/live`;
-const domain = `guidemedoc.com`;
+// const certDir = `/etc/letsencrypt/live`;
+// const domain = `guidemedoc.com`;
+// const options = {
+//   key: fs.readFileSync(`${certDir}/${domain}/privkey.pem`),
+//   cert: fs.readFileSync(`${certDir}/${domain}/fullchain.pem`)
+// };
 const options = {
-  key: fs.readFileSync(`${certDir}/${domain}/privkey.pem`),
-  cert: fs.readFileSync(`${certDir}/${domain}/fullchain.pem`)
-};
+      key: fs.readFileSync(__dirname+`/privkey.pem`),
+      cert: fs.readFileSync(__dirname+`/fullchain.pem`)
+    };
 
   var secureServer = https.createServer(options,app);
   secureServer.listen(app.get('secPort'), () => {
