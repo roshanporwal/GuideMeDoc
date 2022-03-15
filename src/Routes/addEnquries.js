@@ -488,6 +488,8 @@ function convertTime(str) {
     var enquriesFromPatien = await enquriesFromPatient.findOne(req.query)
     var languagePrefer = []
     languagePrefer.push(enquriesFromPatien.languages_prefer)
+    var proposed_treatment_plan1 = []
+    proposed_treatment_plan1.push(enquriesFromPatien.current_diagnosis)
     var formValues = {
       identification_document:enquriesFromPatien.identification_document,
       insurance_card_copy:enquriesFromPatien.insurance_card_copy,
@@ -498,6 +500,7 @@ function convertTime(str) {
       patient_nationality:enquriesFromPatien.nationality,
       patient_gender:enquriesFromPatien.gender,
       current_diagnosis:enquriesFromPatien.current_diagnosis,
+      proposed_treatment_plan:proposed_treatment_plan1,
       patient_referred_by:enquriesFromPatien.referredby,
       type:enquriesFromPatien.referredby,
       subtype:enquriesFromPatien.subtype,

@@ -162,7 +162,7 @@ patient_api.post("/create", async (req, res) => {
 
 //login Patient
 patient_api.post("/login", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const login_id = req.body.login_id;
     const Patient_present = await Patient.findOne({ login_id }).lean();
@@ -178,7 +178,7 @@ patient_api.post("/login", async (req, res) => {
     } else {
       return res
         .status(404)
-        .json({ error: "Not Found", message: "login_id incorrect" });
+        .json({ error: "Not Found", message: "Phone Number not registered. Please sign up!" });
     }
   } catch (err) {
     return res
