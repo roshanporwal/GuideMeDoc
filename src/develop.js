@@ -1,5 +1,5 @@
 const express = require('express');
-const connectDB = require('./DB/Conncection');
+const connectDB = require('./DB/.Conncection');
 const app = express();
 
 const bodyParser = require('body-parser');
