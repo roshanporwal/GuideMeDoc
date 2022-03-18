@@ -14,17 +14,17 @@ var http = require('http');
 
 connectDB();
 app.use(express.json({ extended: false }));
-app.use('', require('./Routes/viewanddownload'));
-app.use('/doctor', require('./Routes/doctor'));
-app.use('/enquries', require('./Routes/addEnquries'));
+app.use('/api', require('./Routes/viewanddownload'));
+app.use('/api/doctor', require('./Routes/doctor'));
+app.use('/api/enquries', require('./Routes/addEnquries'));
 
-app.use('/uploadexcel', require('./Routes/upladfile'));
-app.use('/smartsearch', require('./Routes/smartsearch'));
-app.use('/admin', require('./Routes/admin'));
-app.use('/hospital', require('./Routes/hospital'));
-app.use('/sendmail', require('./Routes/patientmail'));
-app.use('/patient', require('./Routes/patient'));
-app.use('/patientenquries', require('./Routes/addenquriesfrompatient'));
+app.use('/api/uploadexcel', require('./Routes/upladfile'));
+app.use('/api/smartsearch', require('./Routes/smartsearch'));
+app.use('/api/admin', require('./Routes/admin'));
+app.use('/api/hospital', require('./Routes/hospital'));
+app.use('/api/sendmail', require('./Routes/patientmail'));
+app.use('/api/patient', require('./Routes/patient'));
+app.use('/api/patientenquries', require('./Routes/addenquriesfrompatient'));
 
 app.use(cors());
 
