@@ -1,66 +1,58 @@
-'use strict';
+"use strict";
 
-
-const { Router } = require('express');
-const bodyParser = require('body-parser');
-const util = require('util');
-const path = require('path');
-const fs = require('fs');
-var fileupload = require('express-fileupload');
-const enquries = require('../model/enquries');
-const generatePassword = require('../Api/password');
-const cors = require('cors');
-var authenticateToken = require("../middleware/verifytoken")
-var isadmin = require("../middleware/isadmin")
-const nodemailer = require('nodemailer');
-
-
-
-
-
+const { Router } = require("express");
+const bodyParser = require("body-parser");
+const util = require("util");
+const path = require("path");
+const fs = require("fs");
+var fileupload = require("express-fileupload");
+const enquries = require("../model/enquries");
+const generatePassword = require("../Api/password");
+const cors = require("cors");
+var authenticateToken = require("../middleware/verifytoken");
+var isadmin = require("../middleware/isadmin");
+const nodemailer = require("nodemailer");
+var constants = require("../constant");
 
 let sendmail = Router();
 sendmail.use(fileupload());
 sendmail.use(cors());
-sendmail.get('/get', async (req, res) => {
-
+sendmail.get("/get", async (req, res) => {
   try {
-    const enqurie = await enquries.find(req.query)
-    return res.status(200).json({ payload: enqurie })
-  }
-  catch (err) {
-    return res.status(404).json({ error: err, message: "something went wrong pls check filed" })
+    const enqurie = await enquries.find(req.query);
+    return res.status(200).json({ payload: enqurie });
+  } catch (err) {
+    return res
+      .status(404)
+      .json({ error: err, message: "something went wrong pls check filed" });
   }
 });
 
-
-sendmail.post('/send', async (req, res) => {
-  console.log('req.body: ');
+sendmail.post("/send", async (req, res) => {
+  console.log("req.body: ");
   console.log(req.body);
   let Email1 = req.body.email;
-  console.log(Email1, "Email")
-  console.log(req.body.url, "url")
-  const _id = req.body.enq_id
+  console.log(Email1, "Email");
+  console.log(req.body.url, "url");
+  const _id = req.body.enq_id;
   const modify = {
     $set: {
-
-      status: "Awaiting From Patients"
-    }
+      status: "Awaiting From Patients",
+    },
   };
-
 
   // send mail with defined transport object
   let transporter = nodemailer.createTransport({
-    host: 'smtpout.secureserver.net',
+    host: "smtpout.secureserver.net",
     port: 587,
     // service:'yahoo',
     secure: false,
     auth: {
-      user: 'info@guidemedoc.com',
-      pass: 'Dubai@2021'
+      user: "info@guidemedoc.com",
+      pass: "Dubai@2021",
     },
     debug: false,
-    logger: false
+    logger: false,
   });
 
   let html = `<html lang="en-US">
@@ -81,7 +73,7 @@ sendmail.post('/send', async (req, res) => {
                                 <td style="text-align:center;">
                                     <a href="#">
                                         <img width="210"
-                                            src="http://192.46.209.112:8080/view?filepath=./tmp/GuideMeDocLogo.png"
+                                            src="${constants.apiBaseURL}/view?filepath=./tmp/GuideMeDocLogo.png"
                                             alt="Docuclip Logo">
                                     </a>
                                 </td>
@@ -153,28 +145,25 @@ sendmail.post('/send', async (req, res) => {
 
 </html>`;
 
-
   var mailOptions = {
-    from: 'info@guidemedoc.com',
+    from: "info@guidemedoc.com",
     to: Email1,
-    subject: 'Quotation :: GuideMeDoc',
-    html: html
-    // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'  
-
+    subject: "Quotation :: GuideMeDoc",
+    html: html,
+    // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'
   };
 
   transporter.sendMail(mailOptions, async function (error, info) {
     if (error) {
-      return res.status(404).json({ error: error, message: "something went wrong pls check filed" })
+      return res.status(404).json({
+        error: error,
+        message: "something went wrong pls check filed",
+      });
     } else {
-      await enquries.updateOne({ _id }, modify)
-      return res.status(200).json({ payload: "sended successfully" })
+      await enquries.updateOne({ _id }, modify);
+      return res.status(200).json({ payload: "sended successfully" });
     }
   });
-
-
-
 });
-
 
 module.exports = sendmail;
