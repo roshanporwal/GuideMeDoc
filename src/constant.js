@@ -1,7 +1,5 @@
-  const constants = {
-    apiBaseURL: 'http://192.46.209.112:8080',
-   
-  
-  };
+const constants = {
+  apiBaseURL: "https://guidemedoc.com/api",
+};
 
-  module.exports = constants;
+module.exports = constants;
