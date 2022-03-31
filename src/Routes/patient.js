@@ -9,7 +9,7 @@ var token = require("../middleware/genratetoken");
 var authenticateToken = require("../middleware/verifytoken");
 var fileupload = require("express-fileupload");
 var constants = require("../constant");
-
+const axios = require('axios');
 let patient_api = Router();
 patient_api.use(fileupload());
 patient_api.use(cors());
@@ -168,13 +168,20 @@ patient_api.post("/login", async (req, res) => {
     const Patient_present = await Patient.findOne({ login_id }).lean();
     if (Patient_present) {
       // if (Patient_present.password == req.body.password) {
+      const otp = Math.floor(100000 + Math.random() * 900000)
       const auth = token.generateAccessToken({ login_id: login_id });
-      Patient_present.token = auth;
-      Patient_present.Patient = true;
-      return res.status(200).json({ payload: Patient_present });
-      /*} else {
-      return res.status(404).json({ error: "Not Found", message: "Password incorrect" })
-    }*/
+      // console.log(Patient_present)
+       const f = await axios.post(`http://manage.ad-ventura.ae/developer/api/SendSMS/SubmitSMS/?Username=guidemedoc&Password=pass4477&SenderName=GUIDEMEDOC&MobileNumbers=${Patient_present.login_id}&Message=Your otp is ${otp}`)
+      console.log(f)
+       if(f.data.Status === 'OK'){
+        Patient_present.token = auth;
+        Patient_present.Patient = true;
+        Patient_present.otp = otp;
+        return res.status(200).json({ payload: Patient_present });
+      }
+      else {
+        return res.status(404).json({ error: f.data.Status, message: "Otp Not Sent. Please check mobile number and country code." })
+      }
     } else {
       return res
         .status(404)
@@ -186,6 +193,7 @@ patient_api.post("/login", async (req, res) => {
       .json({ error: err, message: "something went wrong pls check filed" });
   }
 });
+
 
 patient_api.get("/:id/getfamily", async (req, res) => {
   Patient.findById(req.params.id).then((patient) => {
