@@ -49,7 +49,8 @@ const EnquriesSchema = new mongoose.Schema(
         payment_mode: { type: String },
         time_period: {type: String},
         nursing_date_range: {type: String},
-        medicine_name: {type: String}
+        medicine_name: {type: String},
+        preferred_hospital_doctor: {type: String},
 
 	},
 	{ collection: 'enquries' }
