@@ -517,6 +517,7 @@ function convertTime(str) {
       family: enquriesFromPatien.family,
       patient_address: enquriesFromPatien.address_patient,
       map_link: enquriesFromPatien.map_link,
+      preferred_hospital_doctor : enquriesFromPatien.preferred_hospital_doctor,
       payment_mode: enquriesFromPatien.payment_mode,
       time_period: enquriesFromPatien.time_period,
       nursing_date_range: enquriesFromPatien.nursing_date_range,
